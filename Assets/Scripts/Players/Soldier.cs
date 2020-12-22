@@ -36,10 +36,8 @@ public class Price{
 enum Nation{
     Jewish,
     Greek,
-    NonJew;
+    NonJew
 }
-
-
 
 public abstract class Soldier{
     private Life life;
@@ -54,7 +52,7 @@ public abstract class Soldier{
     public Price Price{ get; set; }
     public Nation Nation{ get; }
 
-    public void init(float hp, float armor, int power, int range, float speed_attack,
+    public Soldier(float hp, float armor, int power, int range, float speed_attack,
 					float armor_intrusion,float walk, float running){
 		Soldier.Life.Hp = hp;
 		Soldier.Life.Armor = armor;

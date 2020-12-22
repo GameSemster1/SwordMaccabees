@@ -1,13 +1,13 @@
 
-class SpearBearers : Soldier{
+class Horsemen : Soldier{
 
-    public SpearBearers(int nation){
+    public Horsemen(int nation){
 		if((Nation)nation == Nation.Jewish){
-			base.init(/*life*/50f, 1.2f, /*power*/15, 2, 1.5f, 1.2f, /*move*/1.2f, 2.7f);
-			addedPrice(6, 4, 20, 26);
+			base(/*life*/130f, 2f, /*power*/40, 2, 1.5f, 1.5f, /*move*/4.2f, 14f);
+			addedPrice(21, 15, 55, 65);
 		}
 		else if((Nation)nation == Nation.Greek || (Nation)nation == Nation.NonJew){
-			base.init(/*life*/50f, 1.4f, /*power*/15, 2, 1.5f, 1.2f, /*move*/1.12f, 2.5f);
+			base(/*life*/130f, 2.3f, /*power*/40, 2, 1.5f, 1.5f, /*move*/3.75f, 11.95f);
 		}
     }
 	
