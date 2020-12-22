@@ -11,8 +11,6 @@ public class BaseController : MonoBehaviour
 
 	public LayerMask mask;
 
-	public bool chase;
-
 	private bool isAttacking;
 
 	// Start is called before the first frame update
@@ -25,12 +23,23 @@ public class BaseController : MonoBehaviour
 	{
 		if (!isAttacking)
 		{
-			StartCoroutine(AttackCoroutine(ScanForEnemies()));
+			StartCoroutine(AttackCoroutine(ScanForEnemies(), false));
 		}
 	}
 
 	private Life ScanForEnemies()
 	{
+		if (attack != null)
+			foreach (var other in Physics.OverlapSphere(transform.position, attack.range, mask))
+			{
+				var n = other.GetComponent<Nation>();
+				if (n == null || !nation.IsHostile(n)) continue;
+
+				var l = other.GetComponent<Life>();
+				if (l == null) continue;
+				return l;
+			}
+
 		foreach (var other in Physics.OverlapSphere(transform.position, sight.range, mask))
 		{
 			var n = other.GetComponent<Nation>();
@@ -44,36 +53,42 @@ public class BaseController : MonoBehaviour
 		return null;
 	}
 
-	private IEnumerator AttackCoroutine(Life target)
+	private IEnumerator AttackCoroutine(Life target, bool chase)
 	{
-		if (target == null || attack == null)
+		while (true)
 		{
-			isAttacking = false;
-			yield break;
-		}
-
-		isAttacking = true;
-
-		if (!attack.IsInRange(target.transform.position))
-		{
-			if (movement != null)
+			if (target == null || attack == null)
 			{
-				movement.GoTo(target.transform.position, attack.range, true);
-
-				yield return new WaitUntil(() => attack.IsInRange(target.transform.position) && movement.IsRunning);
+				isAttacking = false;
+				yield break;
 			}
-			else
+
+			isAttacking = true;
+
+			if (!attack.IsInRange(target.transform.position))
+			{
+				if (movement != null)
+				{
+					movement.GoTo(target.transform.position, attack.range, true);
+
+					yield return new WaitUntil(() => attack.IsInRange(target.transform.position) && movement.IsRunning);
+				}
+				else
+				{
+					isAttacking = false;
+					yield break;
+				}
+			}
+
+			attack.StartAttacking(target);
+			yield return new WaitWhile(() => attack.IsAttacking);
+
+			if (!chase || target == null || target.IsDead)
 			{
 				isAttacking = false;
 				yield break;
 			}
 		}
-
-		attack.StartAttacking(target);
-
-		yield return new WaitWhile(() => attack.IsAttacking);
-		var newTarget = ScanForEnemies();
-		StartCoroutine(AttackCoroutine(newTarget));
 	}
 
 	public bool GoTo(Vector3 position)
@@ -83,6 +98,6 @@ public class BaseController : MonoBehaviour
 
 	public void Attack(Life target)
 	{
-		StartCoroutine(AttackCoroutine(target));
+		StartCoroutine(AttackCoroutine(target, true));
 	}
 }

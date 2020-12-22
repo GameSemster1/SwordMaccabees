@@ -19,4 +19,6 @@ public class Life : MonoBehaviour
 
 		return hp;
 	}
+
+	public bool IsDead => hp <= 0;
 }
