@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 796429544022415738}
   - component: {fileID: 6685942907090983159}
-  - component: {fileID: -2077807647951207579}
   - component: {fileID: -4972168141814466606}
+  - component: {fileID: -2077807647951207579}
   - component: {fileID: 3319317330717516927}
   - component: {fileID: -4807791503824717867}
   - component: {fileID: -7143145862645677387}
@@ -58,26 +58,6 @@ MonoBehaviour:
   attackMask:
     serializedVersion: 2
     m_Bits: 768
---- !u!114 &-2077807647951207579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7407181684593932618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3b581ab6b1e8c4fb1a750ead50a761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 0
-  rate: 0
-  power: 0
-  intrusion: 0
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 3840
-  obstacleTag: Attack Obstacle
 --- !u!114 &-4972168141814466606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,8 +70,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29e0df85965a834b9b7da8d2b1f9309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  armor: 0
+  hp: 50
+  armor: 0.9
+--- !u!114 &-2077807647951207579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7407181684593932618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3b581ab6b1e8c4fb1a750ead50a761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 30
+  rate: 3
+  power: 25
+  intrusion: 1.7
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 3840
+  obstacleTag: Attack Obstacle
 --- !u!195 &3319317330717516927
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkingSpeed: 0
-  runningSpeed: 0
+  runningSpeed: 3.336
 --- !u!114 &-7143145862645677387
 MonoBehaviour:
   m_ObjectHideFlags: 0

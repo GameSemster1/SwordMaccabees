@@ -70,10 +70,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3b581ab6b1e8c4fb1a750ead50a761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 0
-  rate: 0
-  power: 0
-  intrusion: 0
+  range: 2
+  rate: 40
+  power: 1.5
+  intrusion: 1.5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 3840
@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29e0df85965a834b9b7da8d2b1f9309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  armor: 0
+  hp: 130
+  armor: 2.3
 --- !u!195 &-5498655197629556332
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8515ed5b6856ef94eae92646723009e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 0
-  runningSpeed: 0
+  walkingSpeed: 3.75
+  runningSpeed: 11.95
 --- !u!114 &2232186232652752822
 MonoBehaviour:
   m_ObjectHideFlags: 0
