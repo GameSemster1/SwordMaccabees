@@ -5,20 +5,17 @@ using UnityEngine;
 
 public class PlayerSoldierController : SoldierController, ISelectable
 {
-	public bool selected;
 	public Bounds Bounds => GetComponent<Renderer>().bounds;
 	public bool IsSelected { get; private set; }
 
 	public void OnSelect(bool dragSelect)
 	{
 		IsSelected = true;
-		selected = true;
 	}
 
 	public void OnDeselect()
 	{
 		IsSelected = false;
-		selected = false;
 	}
 
 	public void ActionAt(Vector3 position, GameObject obj)
@@ -43,7 +40,7 @@ public class PlayerSoldierController : SoldierController, ISelectable
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.magenta;
-		if (selected)
+		if (IsSelected)
 			Gizmos.DrawWireSphere(transform.position, 10);
 	}
 }
