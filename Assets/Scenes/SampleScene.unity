@@ -437,8 +437,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
-<<<<<<< HEAD
-=======
 --- !u!1 &1555511202
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +640,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
->>>>>>> 660def6ac51ad93809feb13fa843f5bf2f5c86e5
 --- !u!1 &1944630434
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,11 +766,7 @@ PrefabInstance:
     - target: {fileID: 2982796416180848759, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}
       propertyPath: m_RootOrder
-<<<<<<< HEAD
       value: 3
-=======
-      value: 5
->>>>>>> 660def6ac51ad93809feb13fa843f5bf2f5c86e5
       objectReference: {fileID: 0}
     - target: {fileID: 2982796416180848759, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}
