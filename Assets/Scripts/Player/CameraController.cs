@@ -27,11 +27,14 @@ public class CameraController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
 		var mousePos = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
 
-		mousePos = ClampVector2(mousePos, Vector2.zero, Vector2.one);
+		if (ClampVector2(ref mousePos, Vector2.zero, Vector2.one))
+		{
+			return;
+		}
 
 		var movement = Vector3.zero;
 
@@ -76,8 +79,11 @@ public class CameraController : MonoBehaviour
 		trans.position = position;
 	}
 
-	private static Vector2 ClampVector2(Vector2 val, Vector2 min, Vector2 max)
+	private static bool ClampVector2(ref Vector2 val, Vector2 min, Vector2 max)
 	{
-		return new Vector2(Mathf.Clamp(val.x, min.x, max.x), Mathf.Clamp(val.y, min.y, max.y));
+		var oldVal = val;
+		val = new Vector2(Mathf.Clamp(val.x, min.x, max.x), Mathf.Clamp(val.y, min.y, max.y));
+
+		return oldVal != val;
 	}
 }

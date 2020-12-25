@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - AttackObstacle
+  - Attack Obstacle
   layers:
   - Default
   - TransparentFX
@@ -14,10 +14,10 @@ TagManager:
   - UI
   - 
   - 
-  - Soldier
-  - Building
-  - 
-  - 
+  - Soldiers
+  - Buildings
+  - Obstacle
+  - Terrain
   - 
   - 
   - 

@@ -10,7 +10,7 @@ public class Attack : MonoBehaviour
 	public float intrusion;
 
 	public LayerMask obstacleMask;
-	public string obstacleTag;
+	public string obstacleTag = "Attack Obstacle";
 
 	private float lastAttack;
 
@@ -19,9 +19,9 @@ public class Attack : MonoBehaviour
 	private IEnumerator AttackCoroutine(Life target)
 	{
 		IsAttacking = true;
-		if (lastAttack + rate < Time.time)
+		if (lastAttack + rate > Time.time)
 		{
-			yield return new WaitWhile(() => lastAttack + rate < Time.time);
+			yield return new WaitWhile(() => lastAttack + rate > Time.time);
 		}
 
 		while (IsAttacking)
@@ -66,5 +66,11 @@ public class Attack : MonoBehaviour
 	public bool IsInRange(Vector3 other)
 	{
 		return Vector3.Distance(other, transform.position) <= range;
+	}
+
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, range);
 	}
 }
