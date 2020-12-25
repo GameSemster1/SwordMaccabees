@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5887822140223814773}
   - component: {fileID: 5887822140223814774}
+  - component: {fileID: 927627843}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -46,12 +47,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 5887822141044920434}
   edgeDistance: 0.05
-  minSpeed: {x: 1, y: 1}
-  maxSpeed: {x: 10, y: 10}
+  minSpeed: {x: 0.1, y: 0.1}
+  maxSpeed: {x: 1, y: 1}
   scrollSpeed: 10
-  speedOverHeight: 0.1
+  speedOverHeight: 1
   minHeight: 50
   maxHeight: 400
+--- !u!114 &927627843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887822140223814775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3b4ef6a1f9303478770c732c19447a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 5887822141044920434}
+  mouseButton: 0
+  selectionTransform: {fileID: 0}
 --- !u!1 &5887822141044920437
 GameObject:
   m_ObjectHideFlags: 0

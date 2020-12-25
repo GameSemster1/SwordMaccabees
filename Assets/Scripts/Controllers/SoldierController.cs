@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierController : MonoBehaviour
+public class SoldierController : BaseController
 {
 }

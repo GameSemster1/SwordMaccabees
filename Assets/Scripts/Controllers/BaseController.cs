@@ -1,25 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseController : MonoBehaviour
 {
-	public Sight sight;
-	public Movement movement;
-	public Attack attack;
-	public Nation nation;
+	[SerializeField] protected Sight sight;
+	[SerializeField] protected Movement movement;
+	[SerializeField] protected Attack attack;
+	[SerializeField] protected Nation nation;
+	[SerializeField] protected Life life;
 
-	public LayerMask mask;
+	public LayerMask attackMask;
 
 	private bool isAttacking;
 
-	// Start is called before the first frame update
-	void Start()
-	{
-	}
-
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
 		if (!isAttacking)
 		{
@@ -30,7 +27,7 @@ public class BaseController : MonoBehaviour
 	private Life ScanForEnemies()
 	{
 		if (attack != null)
-			foreach (var other in Physics.OverlapSphere(transform.position, attack.range, mask))
+			foreach (var other in Physics.OverlapSphere(transform.position, attack.range, attackMask))
 			{
 				var n = other.GetComponent<Nation>();
 				if (n == null || !nation.IsHostile(n)) continue;
@@ -40,7 +37,7 @@ public class BaseController : MonoBehaviour
 				return l;
 			}
 
-		foreach (var other in Physics.OverlapSphere(transform.position, sight.range, mask))
+		foreach (var other in Physics.OverlapSphere(transform.position, sight.range, attackMask))
 		{
 			var n = other.GetComponent<Nation>();
 			if (n == null || !nation.IsHostile(n)) continue;
@@ -62,6 +59,7 @@ public class BaseController : MonoBehaviour
 				isAttacking = false;
 				yield break;
 			}
+
 
 			isAttacking = true;
 
