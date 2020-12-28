@@ -350,7 +350,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1446786488 stripped
 GameObject:
@@ -419,7 +419,8 @@ MonoBehaviour:
   movement: {fileID: 0}
   attack: {fileID: 0}
   nation: {fileID: 0}
-  mask:
+  life: {fileID: 0}
+  attackMask:
     serializedVersion: 2
     m_Bits: 0
 --- !u!111 &1446786495
@@ -578,7 +579,7 @@ Transform:
   m_Children:
   - {fileID: 1555511203}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1916227899
 MonoBehaviour:
@@ -766,7 +767,7 @@ PrefabInstance:
     - target: {fileID: 2982796416180848759, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2982796416180848759, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}
