@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerSoldierController : SoldierController, ISelectable
 {
+	public GameObject selectionCircle;
+	
 	private new Collider collider;
 
 	public Bounds Bounds
@@ -25,11 +27,13 @@ public class PlayerSoldierController : SoldierController, ISelectable
 	public void OnSelect(bool dragSelect)
 	{
 		IsSelected = true;
+		selectionCircle.SetActive(true);
 	}
 
 	public void OnDeselect()
 	{
 		IsSelected = false;
+		selectionCircle.SetActive(false);
 	}
 
 	public void OnHighlight(bool isHighlighted)

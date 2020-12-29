@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Attack : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class Attack : MonoBehaviour
 
 	public LayerMask obstacleMask;
 	public string obstacleTag = "Attack Obstacle";
+
+	public UnityEvent onAttack, onStop;
 
 	private float lastAttack;
 
@@ -43,6 +47,7 @@ public class Attack : MonoBehaviour
 			}
 
 			lastAttack = Time.time;
+			onAttack?.Invoke();
 			if (target.WasHit(this) == 0)
 			{
 				IsAttacking = false;
@@ -51,6 +56,8 @@ public class Attack : MonoBehaviour
 
 			yield return new WaitForSeconds(rate);
 		}
+
+		onStop?.Invoke();
 	}
 
 	public void StartAttacking(Life target)
