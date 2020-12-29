@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -4984057945590673754}
   - component: {fileID: -9135522233424515568}
   - component: {fileID: 3869646616158347949}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WorkerGreek
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,6 +78,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3840
   obstacleTag: Attack Obstacle
+  onAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  onStop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2841745869832295846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +98,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 30
   armor: 1
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!195 &8809034359984074557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -103,7 +112,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: Infinity
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -128,6 +137,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 1.12
   runningSpeed: 2.8
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onStop:
+    m_PersistentCalls:
+      m_Calls: []
+  target: {fileID: 0}
 --- !u!114 &-4984057945590673754
 MonoBehaviour:
   m_ObjectHideFlags: 0

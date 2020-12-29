@@ -51,16 +51,17 @@ public class UnitSelector : MonoBehaviour
 		}
 		else
 		{
-			var ray = cam.ScreenPointToRay(startSelectionDrag);
+			var ray = cam.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out var info, Mathf.Infinity, selectionMask))
 			{
 				var s = info.collider.GetComponent<ISelectable>();
 
-				if (s != null)
+				if ((MonoBehaviour) s != null)
 				{
 					if (HighlightedUnit != s)
 					{
-						HighlightedUnit?.OnHighlight(false);
+						if ((MonoBehaviour) HighlightedUnit != null)
+							HighlightedUnit.OnHighlight(false);
 
 						s.OnHighlight(true);
 						HighlightedUnit = s;
@@ -68,17 +69,18 @@ public class UnitSelector : MonoBehaviour
 				}
 				else
 				{
-					HighlightedUnit?.OnHighlight(false);
+					if ((MonoBehaviour) HighlightedUnit != null)
+						HighlightedUnit.OnHighlight(false);
 					HighlightedUnit = null;
 				}
 			}
 			else
 			{
-				HighlightedUnit?.OnHighlight(false);
+				if ((MonoBehaviour) HighlightedUnit != null)
+					HighlightedUnit.OnHighlight(false);
 				HighlightedUnit = null;
 			}
 		}
-
 
 		if (Input.GetMouseButtonUp(mouseButton))
 		{
@@ -98,7 +100,7 @@ public class UnitSelector : MonoBehaviour
 				{
 					var s = info.collider.GetComponent<ISelectable>();
 
-					if (s != null)
+					if ((MonoBehaviour) s != null)
 					{
 						ChangeSelected(new[] {s}, false);
 					}
@@ -116,17 +118,18 @@ public class UnitSelector : MonoBehaviour
 		// deselect old values.
 		foreach (var selectable in selectedUnits.Except(newSelects))
 		{
-			if (selectable != null && selectable.IsSelected)
+			if ((MonoBehaviour) selectable != null && selectable.IsSelected)
 				selectable.OnDeselect();
 		}
 
 		foreach (var selectable in newSelects)
 		{
-			if (selectable != null && !selectable.IsSelected)
+			if ((MonoBehaviour) selectable != null && !selectable.IsSelected)
 				selectable.OnSelect(dragSelect);
 		}
 
-		selectedUnits = newSelects.Where(selectable => selectable != null && selectable.IsSelected).ToArray();
+		selectedUnits = newSelects.Where(selectable => (MonoBehaviour) selectable != null && selectable.IsSelected)
+			.ToArray();
 	}
 
 	private static void SetRectTransformFromRect(RectTransform trans, Rect rect)

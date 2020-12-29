@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5557657469558758001}
   - component: {fileID: -5505166933162083695}
   - component: {fileID: -2282602846026011209}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WorkerNonJew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,6 +77,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3840
   obstacleTag: Attack Obstacle
+  onAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  onStop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8936362845302159812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +97,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 30
   armor: 1
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!195 &-3655263672324963734
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -102,7 +111,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: Infinity
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -127,6 +136,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 1.12
   runningSpeed: 2.8
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onStop:
+    m_PersistentCalls:
+      m_Calls: []
+  target: {fileID: 0}
 --- !u!114 &-5505166933162083695
 MonoBehaviour:
   m_ObjectHideFlags: 0

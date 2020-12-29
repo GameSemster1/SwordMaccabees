@@ -19,6 +19,9 @@ public class BaseController : MonoBehaviour
 	// Update is called once per frame
 	private void Update()
 	{
+		if (life.IsDead)
+			Destroy(gameObject);
+
 		if (!isAttacking)
 		{
 			StartCoroutine(AttackCoroutine(ScanForEnemies(), false));
@@ -68,9 +71,22 @@ public class BaseController : MonoBehaviour
 			{
 				if (movement != null)
 				{
-					movement.GoTo(target.transform.position, attack.range, true);
+					movement.GoTo(target.transform, attack.range, true);
 
-					yield return new WaitUntil(() => attack.IsInRange(target.transform.position) && movement.IsRunning);
+					yield return new WaitUntil(() =>
+					{
+						if (target == null || target.IsDead)
+						{
+							return true;
+						}
+
+						return attack.IsInRange(target.transform.position) && movement.IsRunning;
+					});
+					if (target == null || target.IsDead)
+					{
+						isAttacking = false;
+						yield break;
+					}
 				}
 				else
 				{

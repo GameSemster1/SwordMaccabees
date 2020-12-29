@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5887822140223814773}
   - component: {fileID: 5887822140223814774}
   - component: {fileID: 927627843}
+  - component: {fileID: 130179324}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -51,8 +52,9 @@ MonoBehaviour:
   maxSpeed: {x: 1, y: 1}
   scrollSpeed: 10
   speedOverHeight: 1
-  minHeight: 50
-  maxHeight: 400
+  min: {x: 0, y: 25, z: 0}
+  max: {x: 400, y: 250, z: 400}
+  disableWhenMouseIsOutsideWindow: 1
 --- !u!114 &927627843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +70,28 @@ MonoBehaviour:
   cam: {fileID: 5887822141044920434}
   mouseButton: 0
   selectionTransform: {fileID: 0}
+  selectionMask:
+    serializedVersion: 2
+    m_Bits: 768
+--- !u!114 &130179324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887822140223814775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e26734520e63348af7056e018c0ee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selector: {fileID: 927627843}
+  cam: {fileID: 5887822141044920434}
+  mouseButton: 1
+  actionMask:
+    serializedVersion: 2
+    m_Bits: 2816
+  maxDistance: Infinity
 --- !u!1 &5887822141044920437
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,8 +133,8 @@ Camera:
   m_GameObject: {fileID: 5887822141044920437}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -131,7 +155,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3895
+    m_Bits: 12087
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour
 
 	public UnityEvent onMove, onStop;
 
+	public Transform target;
+
 	private NavMeshAgent agent;
 
 	private bool isRunning;
@@ -31,17 +33,41 @@ public class Movement : MonoBehaviour
 		{
 			isMoving = false;
 			onStop?.Invoke();
+			target = null;
+		}
+
+		if (target != null)
+		{
+			agent.SetDestination(target.position);
 		}
 	}
 
-	public bool GoTo(Vector3 target, float distance, bool run)
+	public bool GoTo(Vector3 pos, float distance, bool run)
 	{
 		isRunning = run;
 		agent.speed = run ? runningSpeed : walkingSpeed;
 
 		agent.stoppingDistance = distance;
 
-		if (agent.SetDestination(target))
+		if (agent.SetDestination(pos))
+		{
+			onMove?.Invoke();
+			isMoving = true;
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool GoTo(Transform trans, float distance, bool run)
+	{
+		target = trans;
+		isRunning = run;
+		agent.speed = run ? runningSpeed : walkingSpeed;
+
+		agent.stoppingDistance = distance;
+
+		if (agent.SetDestination(trans.position))
 		{
 			onMove?.Invoke();
 			isMoving = true;

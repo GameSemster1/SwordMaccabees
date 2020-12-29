@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerSoldierController : SoldierController, ISelectable
 {
 	public GameObject selectionCircle;
-	
+
 	private new Collider collider;
 
 	public Bounds Bounds
@@ -38,11 +38,11 @@ public class PlayerSoldierController : SoldierController, ISelectable
 
 	public void OnHighlight(bool isHighlighted)
 	{
-		Debug.Log($"{name} is highlighted - {isHighlighted}");
 	}
 
 	public void ActionAt(Vector3 position, GameObject obj)
 	{
+		Debug.Log($"Action At {position}");
 		var n = obj.GetComponent<Nation>();
 		if (n != null)
 		{
@@ -57,7 +57,10 @@ public class PlayerSoldierController : SoldierController, ISelectable
 			}
 		}
 
-		GoTo(position);
+		if (!GoTo(position))
+		{
+			Debug.Log($"{name} cant reach {position}.");
+		}
 	}
 
 	private void OnDrawGizmosSelected()
