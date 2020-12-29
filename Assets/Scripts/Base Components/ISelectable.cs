@@ -15,7 +15,7 @@ public interface ISelectable
 
 	bool IsSelected { get; }
 
-	// void OnHighlight();
+	void OnHighlight(bool isHighlighted);
 	void OnSelect(bool dragSelect);
 	void OnDeselect();
 

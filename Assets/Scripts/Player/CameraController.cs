@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 {
 	public Camera cam;
 
-	[Range(0, 1)] public float edgeDistance = 0.05f;
+	[Range(0, 0.5f)] public float edgeDistance = 0.05f;
 
 	public Vector2 minSpeed;
 	public Vector2 maxSpeed;
@@ -16,22 +16,17 @@ public class CameraController : MonoBehaviour
 
 	public float speedOverHeight;
 
-	public float minHeight, maxHeight;
+	public Vector3 min, max;
 
-	private float height;
-
-	// Start is called before the first frame update
-	void Start()
-	{
-		height = transform.position.y;
-	}
+	public bool disableWhenMouseIsOutsideWindow = true;
 
 	// Update is called once per frame
 	private void Update()
 	{
+		var pos = transform.position;
 		var mousePos = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
 
-		if (ClampVector2(ref mousePos, Vector2.zero, Vector2.one))
+		if (ClampVector2(ref mousePos, Vector2.zero, Vector2.one) && disableWhenMouseIsOutsideWindow)
 		{
 			return;
 		}
@@ -64,25 +59,84 @@ public class CameraController : MonoBehaviour
 			              (maxSpeed.y - minSpeed.y) * (1 - (1 - mousePos.y) / edgeDistance);
 		}
 
-		height += Input.mouseScrollDelta.y * scrollSpeed;
-		height = Mathf.Clamp(height, minHeight, maxHeight);
+		pos.y += Input.mouseScrollDelta.y * scrollSpeed;
+		pos.y = Mathf.Clamp(pos.y, min.y, max.y);
 
-		transform.Translate(movement * (speedOverHeight * height * Time.deltaTime));
+		pos += movement * (speedOverHeight * pos.y * Time.deltaTime);
 
-		SetHeight(transform, height);
+
+		transform.position = pos;
+
+		transform.position = ClampToScreenPoint(transform.position);
 	}
 
-	private static void SetHeight(Transform trans, float height)
+	private Vector3 ClampToScreenPoint(Vector3 position)
 	{
-		var position = trans.position;
-		position = new Vector3(position.x, height, position.z);
-		trans.position = position;
+		var pixelWidth = cam.pixelWidth;
+		var pixelHeight = cam.pixelHeight;
+
+		var center = cam.ScreenPointToRay(new Vector3(pixelWidth / 2f, pixelHeight / 2f));
+		// create a plane at 0,0,0 whose normal points to +Y:
+		Plane hPlane = new Plane(Vector3.up, Vector3.zero);
+		// Plane.Raycast stores the distance from ray.origin to the hit point in this variable:
+		// if the ray hits the plane...
+		if (!hPlane.Raycast(center, out var distance)) return position;
+		// get the hit point:
+		var point = center.GetPoint(distance);
+
+		var clampPoint = new Vector3(Mathf.Clamp(point.x, min.x, max.x), 0, Mathf.Clamp(point.z, min.z, max.z));
+
+		if (point == clampPoint) return position;
+		var diff = point - clampPoint;
+
+		position -= diff;
+
+		return position;
+
+		// var top = cam.ScreenPointToRay(new Vector3(pixelWidth / 2f, pixelHeight * screenCornerOffsetMax.y));
+		// var bottom = cam.ScreenPointToRay(new Vector3(pixelWidth / 2f, pixelHeight * screenCornerOffsetMin.y));
+		// var right = cam.ScreenPointToRay(new Vector3(pixelWidth * screenCornerOffsetMax.x, pixelHeight / 2f));
+		// var left = cam.ScreenPointToRay(new Vector3(pixelWidth * screenCornerOffsetMin.x, pixelHeight / 2f));
+		//
+		// if (Physics.Raycast(top, Mathf.Infinity, layerMask: excludeNonVisible))
+		// {
+		// 	if (movement.x > 0)
+		// 		position.x += movement.x;
+		// }
+		//
+		// if (Physics.Raycast(bottom, Mathf.Infinity, layerMask: excludeNonVisible))
+		// {
+		// 	if (movement.x < 0)
+		// 		position.x += movement.x;
+		// }
+		//
+		// if (Physics.Raycast(right, Mathf.Infinity, layerMask: excludeNonVisible))
+		// {
+		// 	if (movement.z > 0)
+		// 		position.z += movement.z;
+		// }
+		//
+		// if (Physics.Raycast(left, Mathf.Infinity, layerMask: excludeNonVisible))
+		// {
+		// 	if (movement.z < 0)
+		// 		position.z += movement.z;
+		// }
 	}
 
 	private static bool ClampVector2(ref Vector2 val, Vector2 min, Vector2 max)
 	{
 		var oldVal = val;
 		val = new Vector2(Mathf.Clamp(val.x, min.x, max.x), Mathf.Clamp(val.y, min.y, max.y));
+
+		return oldVal != val;
+	}
+
+	private static bool ClampVector3(ref Vector3 val, Vector3 min, Vector3 max)
+	{
+		var oldVal = val;
+		val = new Vector3(Mathf.Clamp(val.x, min.x, max.x),
+			Mathf.Clamp(val.y, min.y, max.y),
+			Mathf.Clamp(val.z, min.z, max.z));
 
 		return oldVal != val;
 	}

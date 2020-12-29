@@ -6,8 +6,9 @@
         _CurrTexture ("Current Texture", 2D) = "white" {}
 
         _MainTexture ("Main Texture",2D) = "white"{}
+        _FakeMainTexture ("Fake Main Texture",2D) = "white"{}
 
-        //        _Color ("Color", Color) = (0, 0, 0, 0)
+        _Color ("Color", Color) = (0, 0, 0, 0)
         //        _Alpha ("Alpha", float) = 0
         _Blend("Blend", Float) = 0
     }
@@ -46,10 +47,11 @@
             float4x4 unity_Projector;
             sampler2D _CurrTexture;
             sampler2D _PrevTexture;
-            // fixed4 _Color;
+            fixed4 _Color;
             float _Blend;
 
             sampler2D _MainTexture;
+            sampler2D _FakeMainTexture;
 
             v2f vert(appdata v)
             {
@@ -65,8 +67,19 @@
                 float aCurr = tex2Dproj(_CurrTexture, i.uv).a;
 
                 fixed4 col = tex2Dproj(_MainTexture, i.uv);
+                
 
                 fixed a = lerp(aPrev, aCurr, _Blend);
+
+                // col = col * (_Color);
+
+                col.r = lerp(col.r, _Color.r, _Color.a);
+                col.g = lerp(col.g, _Color.g, _Color.a);
+                col.b = lerp(col.b, _Color.b, _Color.a);
+
+                // col.r = min(col.r + _Color.r * _Color.a, 1);
+                // col.g = min(col.g + _Color.g * _Color.a, 1);
+                // col.b = min(col.b + _Color.b * _Color.a, 1);
 
                 // weird things happen to minimap if alpha value gets negative
                 col.a = max(0, 1 - a);

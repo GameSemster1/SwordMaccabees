@@ -14,6 +14,8 @@ public class UnitSelector : MonoBehaviour
 	public int mouseButton;
 	public RectTransform selectionTransform;
 
+	public LayerMask selectionMask;
+
 	private Vector2 startSelectionDrag, endSelectionDrag;
 	private Rect selectionBox;
 
@@ -22,6 +24,8 @@ public class UnitSelector : MonoBehaviour
 	public IEnumerable<ISelectable> SelectedUnits =>
 		selectedUnits.Where(selectable => selectable != null && selectable.IsSelected);
 
+	public ISelectable HighlightedUnit { get; private set; }
+
 	private bool isDragging = false;
 
 	private void Update()
@@ -29,20 +33,49 @@ public class UnitSelector : MonoBehaviour
 		if (Input.GetMouseButtonDown(mouseButton))
 		{
 			startSelectionDrag = Input.mousePosition;
-			isDragging = true; // TODO: fix when not dragging.
+			// isDragging = true; // TODO: fix when not dragging.
 		}
 
-		if (Input.GetMouseButton(mouseButton))
+		else if (Input.GetMouseButton(mouseButton))
 		{
 			Vector2 currentSelectionDrag = Input.mousePosition;
 
 			if (isDragging || currentSelectionDrag != startSelectionDrag)
 			{
-				selectionTransform.gameObject.SetActive(true);
 				isDragging = true;
+				selectionTransform.gameObject.SetActive(true);
 				selectionBox = GetRect(startSelectionDrag, currentSelectionDrag);
 
 				SetRectTransformFromRect(selectionTransform, selectionBox);
+			}
+		}
+		else
+		{
+			var ray = cam.ScreenPointToRay(startSelectionDrag);
+			if (Physics.Raycast(ray, out var info, Mathf.Infinity, selectionMask))
+			{
+				var s = info.collider.GetComponent<ISelectable>();
+
+				if (s != null)
+				{
+					if (HighlightedUnit != s)
+					{
+						HighlightedUnit?.OnHighlight(false);
+
+						s.OnHighlight(true);
+						HighlightedUnit = s;
+					}
+				}
+				else
+				{
+					HighlightedUnit?.OnHighlight(false);
+					HighlightedUnit = null;
+				}
+			}
+			else
+			{
+				HighlightedUnit?.OnHighlight(false);
+				HighlightedUnit = null;
 			}
 		}
 
@@ -57,6 +90,23 @@ public class UnitSelector : MonoBehaviour
 				endSelectionDrag = Input.mousePosition;
 				selectionBox = GetRect(startSelectionDrag, endSelectionDrag);
 				ChangeSelected(GetUnitsInRect(selectionBox, cam), true);
+			}
+			else
+			{
+				var ray = cam.ScreenPointToRay(startSelectionDrag);
+				if (Physics.Raycast(ray, out var info, Mathf.Infinity, selectionMask))
+				{
+					var s = info.collider.GetComponent<ISelectable>();
+
+					if (s != null)
+					{
+						ChangeSelected(new[] {s}, false);
+					}
+				}
+				else
+				{
+					ChangeSelected(new ISelectable[0], false);
+				}
 			}
 		}
 	}
@@ -94,8 +144,7 @@ public class UnitSelector : MonoBehaviour
 		return new Rect(x, y, width, height);
 	}
 
-	private static ISelectable[] GetUnitsInRect(Rect rect,
-		Camera camera)
+	private static ISelectable[] GetUnitsInRect(Rect rect, Camera camera)
 	{
 		float left = rect.xMin;
 		float top = rect.yMax;

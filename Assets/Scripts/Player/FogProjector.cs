@@ -20,6 +20,8 @@ public class FogProjector : MonoBehaviour
 
 	private void Awake()
 	{
+		ClearOutRenderTexture(fogTexture);
+
 		// fogTexture.format = RenderTextureFormat.ARGB32;
 		projector = GetComponent<Projector>();
 		projector.enabled = true;
@@ -75,5 +77,13 @@ public class FogProjector : MonoBehaviour
 
 		// once finished blending, swap the textures and start a new blend
 		StartNewBlend();
+	}
+
+	private static void ClearOutRenderTexture(RenderTexture renderTexture)
+	{
+		RenderTexture rt = RenderTexture.active;
+		RenderTexture.active = renderTexture;
+		GL.Clear(true, true, Color.clear);
+		RenderTexture.active = rt;
 	}
 }
