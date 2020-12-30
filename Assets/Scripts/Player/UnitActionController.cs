@@ -14,7 +14,7 @@ public class UnitActionController : MonoBehaviour
 	private Camera cam;
 
 	[SerializeField] [Tooltip("The mouse button (0, 1, or 2) for sending commands.")]
-	private int mouseButton;
+	private int mouseButton = 1;
 
 	[SerializeField] [Tooltip("A mask of the places / units that a unit can reach / attack.")]
 	private LayerMask actionMask;

@@ -16,6 +16,8 @@ public class NonShroudSetter : MonoBehaviour
 	private static readonly int MaskTex = Shader.PropertyToID("_MaskTex");
 	private static readonly int LastTex = Shader.PropertyToID("_LastTex");
 
+	private RenderTexture copyOfMain;
+
 	private void Awake()
 	{
 		// ClearOutRenderTexture(tex);
@@ -25,7 +27,11 @@ public class NonShroudSetter : MonoBehaviour
 
 	private void Start()
 	{
-		mat.SetTexture(LastTex, main);
+		copyOfMain = GenerateTexture();
+
+		StartCoroutine(CopyTexture());
+
+		mat.SetTexture(LastTex, copyOfMain);
 		mat.SetTexture(MaskTex, mask);
 	}
 
@@ -41,5 +47,28 @@ public class NonShroudSetter : MonoBehaviour
 	{
 		// Read pixels from the source RenderTexture, apply the material, copy the updated results to the destination RenderTexture
 		Graphics.Blit(src, dest, mat);
+	}
+
+	private IEnumerator CopyTexture()
+	{
+		while (true)
+		{
+			Graphics.Blit(main, copyOfMain);
+
+			yield return new WaitForSeconds(0.01f);
+		}
+	}
+
+	private RenderTexture GenerateTexture()
+	{
+		RenderTexture rt = new RenderTexture(
+			main.width,
+			main.height,
+			0,
+			main.format);
+		rt.filterMode = main.filterMode;
+		rt.antiAliasing = main.antiAliasing;
+
+		return rt;
 	}
 }

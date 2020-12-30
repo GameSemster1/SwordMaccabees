@@ -12,7 +12,7 @@ public class PlayerSoldierController : SoldierController, ISelectable
 	[Tooltip("An object that will be activated whenever this unit is selected (and deactivated when deselected).")]
 	private GameObject selectionCircle;
 
-	private new Collider collider;
+	private Collider col;
 
 	/// <summary>
 	/// The bounds of this unit's collider (for selection).
@@ -21,12 +21,12 @@ public class PlayerSoldierController : SoldierController, ISelectable
 	{
 		get
 		{
-			if (collider == null)
+			if (col == null)
 			{
-				collider = GetComponent<Collider>();
+				col = GetComponent<Collider>();
 			}
 
-			return collider.bounds;
+			return col.bounds;
 		}
 	}
 

@@ -67,7 +67,7 @@
                 float aCurr = tex2Dproj(_CurrTexture, i.uv).a;
 
                 fixed4 col = tex2Dproj(_MainTexture, i.uv);
-                
+
 
                 fixed a = lerp(aPrev, aCurr, _Blend);
 
