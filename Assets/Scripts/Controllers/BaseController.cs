@@ -101,7 +101,7 @@ public class BaseController : MonoBehaviour
 							return true;
 						}
 
-						return attack.IsInRange(target.transform.position) && movement.IsRunning;
+						return attack.IsInRange(target.transform.position);
 					});
 					if (target == null || target.IsDead)
 					{
@@ -117,6 +117,7 @@ public class BaseController : MonoBehaviour
 			}
 
 			attack.StartAttacking(target);
+
 			yield return new WaitWhile(() => attack.IsAttacking);
 
 			if (!chase || target == null || target.IsDead)

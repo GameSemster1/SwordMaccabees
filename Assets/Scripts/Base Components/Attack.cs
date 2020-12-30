@@ -84,12 +84,13 @@ public class Attack : MonoBehaviour
 			}
 
 			lastAttack = Time.time;
-			onAttack?.Invoke();
 			if (target.WasHit(this) == 0)
 			{
 				IsAttacking = false;
 				break;
 			}
+
+			onAttack?.Invoke();
 
 			yield return new WaitForSeconds(rate);
 		}

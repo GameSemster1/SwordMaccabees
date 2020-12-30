@@ -81,7 +81,7 @@ MonoBehaviour:
   intrusion: 1.5
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 3840
+    m_Bits: 3584
   obstacleTag: Attack Obstacle
   onAttack:
     m_PersistentCalls:
@@ -173,11 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9aeeb966317d18449e7a448acba0c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wood: 21
-  rock: 0
-  iron: 15
-  wheat: 55
-  water: 65
   price:
     wood: 21
     rock: 0

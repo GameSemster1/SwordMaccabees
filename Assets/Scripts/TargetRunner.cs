@@ -32,13 +32,13 @@ public class TargetRunner: MonoBehaviour {
         animator = GetComponent<Animator>();
 
         allTargets = targetFolder.GetComponentsInChildren<Target>(false); // get components in active children only
-        Debug.Log("Found " + allTargets.Length + " targets.");
+        // Debug.Log("Found " + allTargets.Length + " targets.");
         SelectNewTarget();
     }
 
     private void SelectNewTarget() {
         currentTarget = allTargets[Random.Range(0, allTargets.Length - 1)];
-        Debug.Log("New target: " + currentTarget.name);
+        // Debug.Log("New target: " + currentTarget.name);
         navMeshAgent.SetDestination(currentTarget.transform.position);
         //if (animator) animator.SetBool("Run", true);
         timeToWaitAtTarget = Random.Range(minWaitAtTarget, maxWaitAtTarget);

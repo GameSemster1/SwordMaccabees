@@ -78,7 +78,7 @@ MonoBehaviour:
   intrusion: 1.2
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 3840
+    m_Bits: 3584
   obstacleTag: Attack Obstacle
   onAttack:
     m_PersistentCalls:
@@ -145,7 +145,6 @@ MonoBehaviour:
   onStop:
     m_PersistentCalls:
       m_Calls: []
-  target: {fileID: 0}
 --- !u!114 &-196388563056698206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,11 +170,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9aeeb966317d18449e7a448acba0c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wood: 0
-  rock: 0
-  iron: 0
-  wheat: 0
-  water: 0
+  price:
+    wood: 0
+    rock: 0
+    iron: 0
+    wheat: 0
+    water: 0
 --- !u!114 &-2542310457783250659
 MonoBehaviour:
   m_ObjectHideFlags: 0
