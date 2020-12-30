@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,15 +9,28 @@ using UnityEngine.Events;
 /// </summary>
 public class Life : MonoBehaviour
 {
-	public float hp;
-	public float armor;
+	[SerializeField] [Tooltip("This unit's Hit Points.")]
+	private float hp;
 
-	[Tooltip("Called whenever this unit is hit.")]
-	public UnityEvent onHit;
+	[SerializeField] [Tooltip("This unit's armor (as a fraction).")]
+	private float armor;
 
+	[SerializeField] [Tooltip("Called whenever this unit is hit.")]
+	private UnityEvent onHit;
+
+	/// <summary>
+	/// Hit points left.
+	/// </summary>
+	public float HP => hp;
+
+	/// <summary>
+	/// Call whenever this unit is hit.
+	/// </summary>
+	/// <param name="attacker">The 'Attack' that hit this unit.</param>
+	/// <returns>Hp left</returns>
 	public float WasHit(Attack attacker)
 	{
-		hp -= attacker.power * attacker.intrusion / armor;
+		hp -= attacker.Power * attacker.Intrusion / armor;
 		onHit?.Invoke();
 
 		if (hp <= 0)
@@ -32,4 +46,13 @@ public class Life : MonoBehaviour
 	/// Is this unit dead?
 	/// </summary>
 	public bool IsDead => hp <= 0;
+
+	/// <summary>
+	/// Add an action that will be called whenever this unit is hit.
+	/// </summary>
+	/// <param name="action"></param>
+	public void DoOnHit(UnityAction action)
+	{
+		onHit.AddListener(action);
+	}
 }

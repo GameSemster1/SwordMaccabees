@@ -8,9 +8,13 @@ using UnityEngine;
 /// </summary>
 public class Nation : MonoBehaviour
 {
-	public Type type;
+	[SerializeField] [Tooltip("This unit's nation.")]
+	private Type type;
 
-	public enum Type
+	/// <summary>
+	/// An enum of possible nations.
+	/// </summary>
+	private enum Type
 	{
 		Jewish,
 		Greek,
@@ -18,6 +22,9 @@ public class Nation : MonoBehaviour
 		NonJewNotHostile
 	}
 
+	/// <summary>
+	/// The set of hostility relations.
+	/// </summary>
 	private readonly HashSet<KeyValuePair<Type, Type>> hostility = new HashSet<KeyValuePair<Type, Type>>
 	{
 		new KeyValuePair<Type, Type>(Type.Jewish, Type.Greek),
@@ -27,7 +34,7 @@ public class Nation : MonoBehaviour
 	};
 
 	/// <summary>
-	/// Is other hostile?
+	/// Is 'other' hostile?
 	/// </summary>
 	public bool IsHostile(Nation other)
 	{

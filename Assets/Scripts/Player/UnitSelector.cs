@@ -5,25 +5,41 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Code based on: https://www.habrador.com/tutorials/select-units-within-rectangle/
+/// A class that is in charge of selecting units.
 /// </summary>
 public class UnitSelector : MonoBehaviour
 {
-	public Camera cam;
+	[SerializeField] [Tooltip("The main camera.")]
+	private Camera cam;
 
-	public int mouseButton;
-	public RectTransform selectionTransform;
+	[SerializeField] [Tooltip("The mouse button (0, 1, or 2) for selecting.")]
+	private int mouseButton;
 
-	public LayerMask selectionMask;
+	/// <summary>
+	/// Should be an image (preferably a 9-split) who's anchor is the bottom left corner.
+	/// </summary>
+	[SerializeField] [Tooltip("A UI element that shows the selection rectangle.")]
+	private RectTransform selectionTransform;
+
+	[SerializeField]
+	[Tooltip(
+		"A mask of the objects that can be selected. Objects must also have a component that implements 'ISelectable'.")]
+	private LayerMask selectionMask;
 
 	private Vector2 startSelectionDrag, endSelectionDrag;
 	private Rect selectionBox;
 
 	private ISelectable[] selectedUnits = new ISelectable[0];
 
+	/// <summary>
+	/// All the units that are currently selected.
+	/// </summary>
 	public IEnumerable<ISelectable> SelectedUnits =>
 		selectedUnits.Where(selectable => selectable != null && selectable.IsSelected);
 
+	/// <summary>
+	/// The unit that is currently highlighted. Null if there is none.
+	/// </summary>
 	public ISelectable HighlightedUnit { get; private set; }
 
 	private bool isDragging = false;
@@ -32,16 +48,17 @@ public class UnitSelector : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(mouseButton))
 		{
+			// start selecting
 			startSelectionDrag = Input.mousePosition;
-			// isDragging = true; // TODO: fix when not dragging.
 		}
 
-		else if (Input.GetMouseButton(mouseButton))
+		if (Input.GetMouseButton(mouseButton))
 		{
 			Vector2 currentSelectionDrag = Input.mousePosition;
 
 			if (isDragging || currentSelectionDrag != startSelectionDrag)
 			{
+				// The mouse is being dragged!
 				isDragging = true;
 				selectionTransform.gameObject.SetActive(true);
 				selectionBox = GetRect(startSelectionDrag, currentSelectionDrag);
@@ -49,7 +66,7 @@ public class UnitSelector : MonoBehaviour
 				SetRectTransformFromRect(selectionTransform, selectionBox);
 			}
 		}
-		else
+		else // The mouse button is not pressed. Check for highlighting.
 		{
 			var ray = cam.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out var info, Mathf.Infinity, selectionMask))
@@ -86,6 +103,7 @@ public class UnitSelector : MonoBehaviour
 		{
 			if (isDragging)
 			{
+				// The mouse moved. Select all units the rectangle.
 				isDragging = false;
 
 				selectionTransform.gameObject.SetActive(false);
@@ -95,6 +113,7 @@ public class UnitSelector : MonoBehaviour
 			}
 			else
 			{
+				// The mouse didn't move. select the unit at the mouse's position.
 				var ray = cam.ScreenPointToRay(startSelectionDrag);
 				if (Physics.Raycast(ray, out var info, Mathf.Infinity, selectionMask))
 				{
@@ -122,12 +141,14 @@ public class UnitSelector : MonoBehaviour
 				selectable.OnDeselect();
 		}
 
+		// select new values.
 		foreach (var selectable in newSelects)
 		{
 			if ((MonoBehaviour) selectable != null && !selectable.IsSelected)
 				selectable.OnSelect(dragSelect);
 		}
 
+		// update selection.
 		selectedUnits = newSelects.Where(selectable => (MonoBehaviour) selectable != null && selectable.IsSelected)
 			.ToArray();
 	}
@@ -147,6 +168,9 @@ public class UnitSelector : MonoBehaviour
 		return new Rect(x, y, width, height);
 	}
 
+	/// <summary>
+	/// Based on: https://gist.github.com/benloong/4661195
+	/// </summary>
 	private static ISelectable[] GetUnitsInRect(Rect rect, Camera camera)
 	{
 		float left = rect.xMin;

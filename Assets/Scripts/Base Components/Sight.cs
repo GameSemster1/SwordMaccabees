@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class that represents this unit's field of view.
+/// </summary>
 public class Sight : MonoBehaviour
 {
-	public float range;
+	[SerializeField] private float range;
+
+	/// <summary>
+	/// The range of sight of this object.
+	/// </summary>
+	public float Range => range;
+
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;

@@ -3,12 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the Player's soldiers.
+/// </summary>
 public class PlayerSoldierController : SoldierController, ISelectable
 {
-	public GameObject selectionCircle;
+	[SerializeField]
+	[Tooltip("An object that will be activated whenever this unit is selected (and deactivated when deselected).")]
+	private GameObject selectionCircle;
 
 	private new Collider collider;
 
+	/// <summary>
+	/// The bounds of this unit's collider (for selection).
+	/// </summary>
 	public Bounds Bounds
 	{
 		get
@@ -22,6 +30,9 @@ public class PlayerSoldierController : SoldierController, ISelectable
 		}
 	}
 
+	/// <summary>
+	/// Is this unit selected?
+	/// </summary>
 	public bool IsSelected { get; private set; }
 
 	public void OnSelect(bool dragSelect)
@@ -59,7 +70,7 @@ public class PlayerSoldierController : SoldierController, ISelectable
 
 		if (!GoTo(position))
 		{
-			Debug.Log($"{name} cant reach {position}.");
+			Debug.Log($"{name} can't reach {position}.");
 		}
 	}
 

@@ -5,22 +5,43 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
+/// <summary>
+/// A class that is in charge of a unit's movement.
+/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class Movement : MonoBehaviour
 {
-	public float walkingSpeed;
-	public float runningSpeed;
+	[SerializeField] [Tooltip("The unit's walking speed (in m/s).")]
+	private float walkingSpeed;
 
-	public UnityEvent onMove, onStop;
+	[SerializeField] [Tooltip("The unit's running speed (in m/s).")]
+	private float runningSpeed;
 
-	public Transform target;
+	[SerializeField] [Tooltip("An action that will be performed whenever the unit starts moving.")]
+	private UnityEvent onMove;
+
+	[SerializeField] [Tooltip("An action that will be performed whenever the unit stops moving.")]
+	private UnityEvent onStop;
+
+	/// <summary>
+	/// The Transform this unit is heading to, *If it is heading towards a transform rather than at position*.
+	/// Null if the unit arrived or if it's heading towards a position.
+	/// </summary>
+	public Transform Target { get; private set; }
 
 	private NavMeshAgent agent;
 
 	private bool isRunning;
-	private bool isMoving;
 
-	public bool IsRunning => !agent.isStopped && isRunning;
+	/// <summary>
+	/// Is this unit currently running?
+	/// </summary>
+	public bool IsRunning => !IsMoving && isRunning;
+
+	/// <summary>
+	/// Is this unit moving?
+	/// </summary>
+	public bool IsMoving { get; private set; }
 
 	private void Start()
 	{
@@ -29,19 +50,26 @@ public class Movement : MonoBehaviour
 
 	private void Update()
 	{
-		if (isMoving && agent.isStopped)
+		if (IsMoving && agent.isStopped)
 		{
-			isMoving = false;
+			IsMoving = false;
 			onStop?.Invoke();
-			target = null;
+			Target = null;
 		}
 
-		if (target != null)
+		if (Target != null)
 		{
-			agent.SetDestination(target.position);
+			agent.SetDestination(Target.position);
 		}
 	}
 
+	/// <summary>
+	/// Go to a specified position.
+	/// </summary>
+	/// <param name="pos">The position to go to.</param>
+	/// <param name="distance">The distance from 'pos' to stop at.</param>
+	/// <param name="run">Should we run there?</param>
+	/// <returns>True if 'pos' is reachable.</returns>
 	public bool GoTo(Vector3 pos, float distance, bool run)
 	{
 		isRunning = run;
@@ -52,16 +80,23 @@ public class Movement : MonoBehaviour
 		if (agent.SetDestination(pos))
 		{
 			onMove?.Invoke();
-			isMoving = true;
+			IsMoving = true;
 			return true;
 		}
 
 		return false;
 	}
 
+	/// <summary>
+	/// Go to a specified Transform's position (updating every frame).
+	/// </summary>
+	/// <param name="trans">The Transform to go to.</param>
+	/// <param name="distance">The distance from 'trans.position' to stop at.</param>
+	/// <param name="run">Should we run there?</param>
+	/// <returns>True if 'trans.position' is reachable. Note: this only checks in the current frame.</returns>
 	public bool GoTo(Transform trans, float distance, bool run)
 	{
-		target = trans;
+		Target = trans;
 		isRunning = run;
 		agent.speed = run ? runningSpeed : walkingSpeed;
 
@@ -70,15 +105,19 @@ public class Movement : MonoBehaviour
 		if (agent.SetDestination(trans.position))
 		{
 			onMove?.Invoke();
-			isMoving = true;
+			IsMoving = true;
 			return true;
 		}
 
 		return false;
 	}
 
+	/// <summary>
+	/// Stop moving.
+	/// </summary>
 	public void Stop()
 	{
 		agent.isStopped = true;
+		IsMoving = false;
 	}
 }

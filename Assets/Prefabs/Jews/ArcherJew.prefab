@@ -181,7 +181,6 @@ MonoBehaviour:
           m_StringArgument: StopRun
           m_BoolArgument: 0
         m_CallState: 2
-  target: {fileID: 0}
 --- !u!114 &2078756749220280800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +211,12 @@ MonoBehaviour:
   iron: 8
   wheat: 15
   water: 20
+  price:
+    wood: 15
+    rock: 0
+    iron: 8
+    wheat: 15
+    water: 20
 --- !u!114 &-3372308793449439757
 MonoBehaviour:
   m_ObjectHideFlags: 0

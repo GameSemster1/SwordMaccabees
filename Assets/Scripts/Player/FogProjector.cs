@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// A class that is in charge of the for projector.
+/// A class that is in charge of the fog projector.
 /// Based on https://andrewhungblog.wordpress.com/2018/06/23/implementing-fog-of-war-in-unity/.
 /// </summary>
 public class FogProjector : MonoBehaviour
@@ -56,7 +56,7 @@ public class FogProjector : MonoBehaviour
 		return rt;
 	}
 
-	public void StartNewBlend()
+	private void StartNewBlend()
 	{
 		StopCoroutine(BlendFog());
 		blendAmount = 0;

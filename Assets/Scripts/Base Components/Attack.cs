@@ -1,23 +1,57 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// A class that is in charge of the units' attacking.
+/// A class that is in charge of a unit's attack.
 /// </summary>
 public class Attack : MonoBehaviour
 {
-	public float range;
-	public float rate;
-	public float power;
-	public float intrusion;
+	[SerializeField] [Tooltip("This unit's attack range.")]
+	private float range;
 
-	public LayerMask obstacleMask;
-	public string obstacleTag = "Attack Obstacle";
+	[SerializeField] [Tooltip("This unit's attack rate.")]
+	private float rate;
 
-	public UnityEvent onAttack, onStop;
+	[SerializeField] [Tooltip("This unit's attack strength.")]
+	private float power;
+
+	[SerializeField] [Tooltip("This unit's attack's armor intrusion.")]
+	private float intrusion;
+
+	[SerializeField] [Tooltip("A mask of the objects that this unit can't attack through them.")]
+	private LayerMask obstacleMask;
+
+	[SerializeField]
+	[Tooltip(
+		"A tag that all obstacles have. A unit can't attack through an object that is in the obstacle mask and has the obstacle tag.")]
+	private string obstacleTag = "Attack Obstacle";
+
+	[SerializeField] [Tooltip("An action that will be performed every time this unit attacks.")]
+	private UnityEvent onAttack;
+
+	[SerializeField] [Tooltip("An action that will be performed whenever this unit stops attacking completely.")]
+	private UnityEvent onStop;
+
+	/// <summary>
+	/// This unit's attack range.
+	/// </summary>
+	public float Range => range;
+
+	/// <summary>
+	/// This unit's attack rate.
+	/// </summary>
+	public float Rate => rate;
+
+	/// <summary>
+	/// This unit's attack strength.
+	/// </summary>
+	public float Power => power;
+
+	/// <summary>
+	/// This unit's attack's armor intrusion.
+	/// </summary>
+	public float Intrusion => intrusion;
 
 	private float lastAttack;
 
@@ -82,5 +116,23 @@ public class Attack : MonoBehaviour
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, range);
+	}
+
+	/// <summary>
+	/// Adds an action that will be performed evey time this unit attacks.
+	/// </summary>
+	/// <param name="action">The action to perform.</param>
+	public void DoOnAttack(UnityAction action)
+	{
+		onAttack.AddListener(action);
+	}
+
+	/// <summary>
+	/// Adds an action that will be performed whenever this unit stops attacking completely.
+	/// </summary>
+	/// <param name="action">The action to perform.</param>
+	public void DoOnStop(UnityAction action)
+	{
+		onStop.AddListener(action);
 	}
 }

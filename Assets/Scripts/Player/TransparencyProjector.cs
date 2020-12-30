@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class that is in charge of the shroud and non-shroud projector.
+/// Based on 'FogProjector'.
+/// </summary>
 public class TransparencyProjector : MonoBehaviour
 {
 	public Material projectorMaterial;

@@ -148,7 +148,6 @@ MonoBehaviour:
   onStop:
     m_PersistentCalls:
       m_Calls: []
-  target: {fileID: 0}
 --- !u!114 &8133602547381603511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +178,12 @@ MonoBehaviour:
   iron: 15
   wheat: 55
   water: 65
+  price:
+    wood: 21
+    rock: 0
+    iron: 15
+    wheat: 55
+    water: 65
 --- !u!114 &-6485058273700280975
 MonoBehaviour:
   m_ObjectHideFlags: 0

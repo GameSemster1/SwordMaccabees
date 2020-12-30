@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A class that is in charge of sending the user's commands to his units.
+/// A class that is in charge of sending the player's commands to his units.
 /// </summary>
 public class UnitActionController : MonoBehaviour
 {
