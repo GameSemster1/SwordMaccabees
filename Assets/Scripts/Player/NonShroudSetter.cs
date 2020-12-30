@@ -8,23 +8,25 @@ using UnityEngine;
 /// </summary>
 public class NonShroudSetter : MonoBehaviour
 {
-	[SerializeField] private CustomRenderTexture tex;
+	// [SerializeField] private CustomRenderTexture tex;
 	[SerializeField] private RenderTexture mask;
 	[SerializeField] private RenderTexture main;
+
+	[SerializeField] private Material mat;
 	private static readonly int MaskTex = Shader.PropertyToID("_MaskTex");
-	private static readonly int MainTex = Shader.PropertyToID("_MainTex");
+	private static readonly int LastTex = Shader.PropertyToID("_LastTex");
 
 	private void Awake()
 	{
-		ClearOutRenderTexture(tex);
+		// ClearOutRenderTexture(tex);
 		ClearOutRenderTexture(main);
 		ClearOutRenderTexture(mask);
 	}
 
 	private void Start()
 	{
-		tex.material.SetTexture(MainTex, main);
-		tex.material.SetTexture(MaskTex, mask);
+		mat.SetTexture(LastTex, main);
+		mat.SetTexture(MaskTex, mask);
 	}
 
 	private static void ClearOutRenderTexture(RenderTexture renderTexture)
@@ -33,5 +35,11 @@ public class NonShroudSetter : MonoBehaviour
 		RenderTexture.active = renderTexture;
 		GL.Clear(true, true, Color.clear);
 		RenderTexture.active = rt;
+	}
+
+	private void OnRenderImage(RenderTexture src, RenderTexture dest)
+	{
+		// Read pixels from the source RenderTexture, apply the material, copy the updated results to the destination RenderTexture
+		Graphics.Blit(src, dest, mat);
 	}
 }

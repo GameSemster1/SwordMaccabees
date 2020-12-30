@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1878709556927039310}
   - component: {fileID: 4514102880851846144}
   m_Layer: 0
-  m_Name: Shroud
+  m_Name: ShroudCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
   blendSpeed: 5
   textureScale: 2
   fogTexture: {fileID: 8400000, guid: 5a7cc55b9c6c3604aaef3c27c745ebcf, type: 2}
-  mainTexture: {fileID: 8600000, guid: d3af8a67785b17e43aad7b43474c6049, type: 2}
+  mainTexture: {fileID: 8400000, guid: 15ff35e56f90f0a42bd59f4dc58b7ddc, type: 2}
 --- !u!1 &5619085251512677105
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,9 +363,8 @@ GameObject:
   - component: {fileID: 6450159213418534082}
   - component: {fileID: 4713790009655629551}
   - component: {fileID: 321587884}
-  - component: {fileID: 2969134364258070448}
   m_Layer: 0
-  m_Name: NonShroud
+  m_Name: NonShroudCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,24 +439,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e4953e01c461442bce1522764bbb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tex: {fileID: 8600000, guid: d3af8a67785b17e43aad7b43474c6049, type: 2}
   mask: {fileID: 8400000, guid: 5a7cc55b9c6c3604aaef3c27c745ebcf, type: 2}
   main: {fileID: 8400000, guid: 15ff35e56f90f0a42bd59f4dc58b7ddc, type: 2}
---- !u!114 &2969134364258070448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5619085251512677105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e4953e01c461442bce1522764bbb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tex: {fileID: 8600000, guid: d3af8a67785b17e43aad7b43474c6049, type: 2}
-  mask: {fileID: 8400000, guid: 5a7cc55b9c6c3604aaef3c27c745ebcf, type: 2}
-  main: {fileID: 8400000, guid: 15ff35e56f90f0a42bd59f4dc58b7ddc, type: 2}
+  mat: {fileID: 2100000, guid: f584a508fedb9104190ccaf2de503b36, type: 2}
 --- !u!1 &7348972292453640224
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +520,7 @@ GameObject:
   - component: {fileID: 51461684056289119}
   - component: {fileID: 3181738802989614510}
   m_Layer: 0
-  m_Name: DarkShroud
+  m_Name: DarkShroudCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
