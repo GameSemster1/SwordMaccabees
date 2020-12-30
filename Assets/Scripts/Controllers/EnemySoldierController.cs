@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls enemy soldiers. (currently only shows the number of enemies left).
+/// </summary>
 public class EnemySoldierController : SoldierController
 {
 	private static readonly List<EnemySoldierController> enemies = new List<EnemySoldierController>();

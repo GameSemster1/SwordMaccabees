@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class that is in charge of sending the user's commands to his units.
+/// </summary>
 public class UnitActionController : MonoBehaviour
 {
-	public UnitSelector selector;
-	public Camera cam;
-	public int mouseButton;
-	public LayerMask actionMask;
-	public float maxDistance = Mathf.Infinity;
+	[Tooltip("A UnitSelector who's selected units we want to control.")] [SerializeField]
+	private UnitSelector selector;
 
-	// Start is called before the first frame update
-	void Start()
-	{
-	}
+	[Tooltip("The user's camera (main camera).")] [SerializeField]
+	private Camera cam;
 
-	// Update is called once per frame
-	void Update()
+	[SerializeField] [Tooltip("The mouse button (0, 1, or 2) for sending commands.")]
+	private int mouseButton;
+
+	[SerializeField] [Tooltip("A mask of the places / units that a unit can reach / attack.")]
+	private LayerMask actionMask;
+
+	[SerializeField] [Tooltip("The distance to check for an object in the mask. ")]
+	private float maxDistance = Mathf.Infinity;
+
+	private void Update()
 	{
 		if (Input.GetMouseButtonDown(mouseButton))
 		{

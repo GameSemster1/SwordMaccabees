@@ -10,6 +10,8 @@
     CGINCLUDE
     #include "UnityCustomRenderTexture.cginc"
 
+    #pragma target 3.5
+
     sampler2D _MaskTex;
     sampler2D _MainTex;
 

@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// A class that is in charge of the for projector.
+/// Based on https://andrewhungblog.wordpress.com/2018/06/23/implementing-fog-of-war-in-unity/.
+/// </summary>
 public class FogProjector : MonoBehaviour
 {
-	public Material projectorMaterial;
-	public float blendSpeed;
-	public int textureScale;
+	[SerializeField] private Material projectorMaterial;
+	[SerializeField] private float blendSpeed;
+	[SerializeField] private int textureScale;
 
-	public RenderTexture fogTexture;
+	[SerializeField] private RenderTexture fogTexture;
 
 	private RenderTexture prevTexture;
 	private RenderTexture currTexture;

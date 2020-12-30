@@ -2,6 +2,7 @@
 {
     CGINCLUDE
     #include "UnityCustomRenderTexture.cginc"
+    #pragma target 3.5
 
     half4 frag(v2f_init_customrendertexture i) : SV_Target
     {

@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class that is in charge of setting the 'non-shroud' CustomRenderTexture's fields.
+/// </summary>
 public class NonShroudSetter : MonoBehaviour
 {
-	public CustomRenderTexture tex;
-	public RenderTexture mask;
-	public RenderTexture main;
+	[SerializeField] private CustomRenderTexture tex;
+	[SerializeField] private RenderTexture mask;
+	[SerializeField] private RenderTexture main;
 	private static readonly int MaskTex = Shader.PropertyToID("_MaskTex");
 	private static readonly int MainTex = Shader.PropertyToID("_MainTex");
 

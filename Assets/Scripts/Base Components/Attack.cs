@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// A class that is in charge of the units' attacking.
+/// </summary>
 public class Attack : MonoBehaviour
 {
 	public float range;
