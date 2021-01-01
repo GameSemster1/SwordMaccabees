@@ -10,7 +10,7 @@ public class EnemySoldierController : SoldierController
 {
 	private static readonly List<EnemySoldierController> enemies = new List<EnemySoldierController>();
 
-	private void Awake()
+	protected override void Awake()
 	{
 		enemies.Add(this);
 	}

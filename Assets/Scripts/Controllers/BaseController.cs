@@ -27,47 +27,106 @@ public class BaseController : MonoBehaviour
 	[SerializeField] [Tooltip("A mask of the units this unit can attack.")]
 	private LayerMask attackMask;
 
+	[SerializeField] [Tooltip("The default stance of this unit.")]
+	protected Stance stance;
+
 	private bool isAttacking;
+	private bool isGuarding;
+	private Vector3 anchor;
+	private float maxDistanceFromAnchor;
+
+	private bool canMove;
+	private bool canAttack;
+	private bool canSee;
+
+	public enum Stance
+	{
+		Aggressive,
+		Guard,
+		HoldPosition,
+		HoldFire
+	}
+
+	protected virtual void Awake()
+	{
+	}
+
+	protected virtual void Start()
+	{
+		canMove = movement != null;
+		canAttack = attack != null;
+		canSee = sight != null;
+	}
 
 	// Update is called once per frame
-	private void Update()
+	protected virtual void Update()
 	{
 		if (life.IsDead)
 			Destroy(gameObject);
 
-		if (!isAttacking)
+		if (!isAttacking && stance != Stance.HoldFire)
 		{
-			StartCoroutine(AttackCoroutine(ScanForEnemies(), false));
+			anchor = transform.position;
+			if (canSee && canAttack)
+				maxDistanceFromAnchor = sight.Range - attack.Range;
+			if (ScanForEnemies(out var target))
+				StartCoroutine(AttackCoroutine(target,
+					stance == Stance.Aggressive, stance == Stance.Guard));
 		}
 	}
 
 	/// <summary>
 	/// Finds an enemy we can attack.
 	/// </summary>
-	private Life ScanForEnemies()
+	/// <param name="target"></param>
+	/// <param name="additionalCondition"></param>
+	/// <returns></returns>
+	private bool ScanForEnemies(out Life target, Func<Life, bool> additionalCondition = null)
 	{
-		if (attack != null)
+		if (canAttack)
 			foreach (var other in Physics.OverlapSphere(transform.position, attack.Range, attackMask))
 			{
-				var n = other.GetComponent<Nation>();
-				if (n == null || !nation.IsHostile(n)) continue;
+				if (!TryGetComponent<Nation>(out var n) || !nation.IsHostile(n)) continue;
 
-				var l = other.GetComponent<Life>();
-				if (l == null) continue;
-				return l;
+				if (!TryGetComponent<Life>(out var l) || l.IsDead) continue;
+
+				if (additionalCondition != null && !additionalCondition(l)) continue;
+
+				target = l;
+				return true;
 			}
 
 		foreach (var other in Physics.OverlapSphere(transform.position, sight.Range, attackMask))
 		{
-			var n = other.GetComponent<Nation>();
-			if (n == null || !nation.IsHostile(n)) continue;
+			if (!TryGetComponent<Nation>(out var n) || !nation.IsHostile(n)) continue;
 
-			var l = other.GetComponent<Life>();
-			if (l == null) continue;
-			return l;
+			if (!TryGetComponent<Life>(out var l) || l.IsDead) continue;
+
+			if (additionalCondition != null && !additionalCondition(l)) continue;
+
+			target = l;
+			return true;
 		}
 
-		return null;
+		target = null;
+		return false;
+	}
+
+	private IEnumerator GuardCoroutine()
+	{
+		if (!canSee || !canAttack)
+			yield break;
+		isGuarding = true;
+		maxDistanceFromAnchor = sight.Range - attack.Range;
+		while (isGuarding && stance == Stance.Guard)
+		{
+			GoTo(anchor);
+			if (ScanForEnemies(out var target,
+				l => Vector3.Distance(l.transform.position, anchor) < maxDistanceFromAnchor))
+			{
+				yield return StartCoroutine(AttackCoroutine(target, true, true));
+			}
+		}
 	}
 
 	/// <summary>
@@ -75,41 +134,33 @@ public class BaseController : MonoBehaviour
 	/// </summary>
 	/// <param name="target">A 'Life' object to attack.</param>
 	/// <param name="chase">Should we chase 'target' if it runs away?</param>
-	private IEnumerator AttackCoroutine(Life target, bool chase)
+	/// <param name="useAnchor"></param>
+	private IEnumerator AttackCoroutine(Life target, bool chase, bool useAnchor)
 	{
-		while (true)
+		if (!canAttack || target == null || target.IsDead)
 		{
-			if (target == null || attack == null)
-			{
-				isAttacking = false;
-				yield break;
-			}
+			isAttacking = false;
+			yield break;
+		}
 
+		isAttacking = true;
 
-			isAttacking = true;
-
+		while (isAttacking)
+		{
 			if (!attack.IsInRange(target.transform.position))
 			{
-				if (movement != null)
+				if (!canMove)
 				{
-					movement.GoTo(target.transform, attack.Range, true);
-
-					yield return new WaitUntil(() =>
-					{
-						if (target == null || target.IsDead)
-						{
-							return true;
-						}
-
-						return attack.IsInRange(target.transform.position);
-					});
-					if (target == null || target.IsDead)
-					{
-						isAttacking = false;
-						yield break;
-					}
+					isAttacking = false;
+					yield break;
 				}
+
+				if (useAnchor)
+					yield return StartCoroutine(Chase(target, anchor, maxDistanceFromAnchor));
 				else
+					yield return StartCoroutine(Chase(target));
+
+				if (!attack.IsInRange(target.transform.position))
 				{
 					isAttacking = false;
 					yield break;
@@ -128,6 +179,41 @@ public class BaseController : MonoBehaviour
 		}
 	}
 
+	private IEnumerator Chase(Life target)
+	{
+		yield return StartCoroutine(Chase(target, default, Mathf.Infinity));
+	}
+
+	private IEnumerator Chase(Life target, Vector3 anchor, float maxDistance)
+	{
+		movement.GoTo(target.transform, attack.Range, true);
+
+		int returnReason = 0;
+
+		yield return new WaitUntil(() =>
+		{
+			if (target == null || target.IsDead)
+			{
+				returnReason = 1;
+				return true;
+			}
+
+			if (attack.IsInRange(target.transform.position))
+			{
+				returnReason = 2;
+				return true;
+			}
+
+			if (Vector3.Distance(target.transform.position, anchor) > maxDistance)
+			{
+				returnReason = 3;
+				return true;
+			}
+
+			return false;
+		});
+	}
+
 	/// <summary>
 	/// Tells this unit to go to a position on the map.
 	/// </summary>
@@ -135,7 +221,9 @@ public class BaseController : MonoBehaviour
 	/// <returns>True if 'position can be reached.</returns>
 	public bool GoTo(Vector3 position)
 	{
-		return movement != null && movement.GoTo(position, 0, true);
+		if (!canMove) return false;
+		StopAttacking();
+		return movement.GoTo(position, 0, true);
 	}
 
 	/// <summary>
@@ -145,15 +233,29 @@ public class BaseController : MonoBehaviour
 	/// <returns>True if 'trans' can currently be reached.</returns>
 	public bool GoTo(Transform trans)
 	{
-		return movement != null && movement.GoTo(trans, 0, true);
+		if (!canMove) return false;
+		StopAttacking();
+		return movement.GoTo(trans, 0, true);
 	}
 
 	/// <summary>
 	/// Tells this unit to attack a target.
 	/// </summary>
 	/// <param name="target">The target to attack.</param>
-	public void Attack(Life target)
+	public bool Attack(Life target)
 	{
-		StartCoroutine(AttackCoroutine(target, true));
+		if (!canAttack) return false;
+
+		if (!canMove && !attack.IsInRange(target.transform.position)) return false;
+
+		StartCoroutine(AttackCoroutine(target, true, false));
+
+		return true;
+	}
+
+	public void StopAttacking()
+	{
+		isAttacking = false;
+		attack.StopAttacking();
 	}
 }

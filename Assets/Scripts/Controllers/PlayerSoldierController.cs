@@ -53,18 +53,15 @@ public class PlayerSoldierController : SoldierController, ISelectable
 
 	public void ActionAt(Vector3 position, GameObject obj)
 	{
-		Debug.Log($"Action At {position}");
-		var n = obj.GetComponent<Nation>();
-		if (n != null)
+		if (TryGetComponent<Nation>(out var n) && nation.IsHostile(n))
 		{
-			if (nation.IsHostile(n))
+			if (TryGetComponent<Life>(out var l))
 			{
-				var l = obj.GetComponent<Life>();
-				if (l != null)
+				if (!Attack(l))
 				{
-					Attack(l);
-					return;
+					Debug.Log($"{name} can't attack {obj.name}");
 				}
+				else return;
 			}
 		}
 
