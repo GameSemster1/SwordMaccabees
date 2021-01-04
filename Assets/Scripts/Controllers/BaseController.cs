@@ -295,8 +295,11 @@ public class BaseController : MonoBehaviour
 		if (!canMove) return false;
 		isBored = false;
 		isAutoAttacking = false;
-		StopAttacking();
-		StartCoroutine(InvokeNextFrame(() => { movement.GoTo(position, 0, true, () => { isBored = true; }); }));
+		StartCoroutine(InvokeNextFrame(() =>
+		{
+			StopAttacking();
+			StartCoroutine(InvokeNextFrame(() => { movement.GoTo(position, 0, true, () => { isBored = true; }); }));
+		}));
 		return true;
 	}
 
@@ -309,9 +312,13 @@ public class BaseController : MonoBehaviour
 	{
 		if (!canMove) return false;
 		isBored = false;
-		StopAttacking();
+		isAutoAttacking = false;
 
-		StartCoroutine(InvokeNextFrame(() => { movement.GoTo(trans, 0, true, () => { isBored = true; }); }));
+		StartCoroutine(InvokeNextFrame(() =>
+		{
+			StopAttacking();
+			StartCoroutine(InvokeNextFrame(() => { movement.GoTo(trans, 0, true, () => { isBored = true; }); }));
+		}));
 
 		return true;
 	}
