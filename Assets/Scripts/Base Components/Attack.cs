@@ -67,6 +67,9 @@ public class Attack : MonoBehaviour
 
 		while (IsAttacking)
 		{
+			if (target == null || target.IsDead)
+				break;
+
 			if (Physics.Raycast(transform.position, target.transform.position - transform.position,
 				out var info, range, obstacleMask))
 			{

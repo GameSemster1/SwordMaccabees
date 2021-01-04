@@ -28,10 +28,14 @@ public class BaseController : MonoBehaviour
 	private LayerMask attackMask;
 
 	[SerializeField] [Tooltip("The default stance of this unit.")]
-	protected Stance stance;
+	protected Stance stance = Stance.Guard;
 
 	private bool isAttacking;
 	private bool isGuarding;
+	private bool isAutoAttacking;
+
+	private bool isBored = true;
+
 	private Vector3 anchor;
 	private float maxDistanceFromAnchor;
 
@@ -58,20 +62,33 @@ public class BaseController : MonoBehaviour
 		canSee = sight != null;
 	}
 
+	private bool destroy;
+
 	// Update is called once per frame
 	protected virtual void Update()
 	{
-		if (life.IsDead)
+		if (destroy)
 			Destroy(gameObject);
 
-		if (!isAttacking && stance != Stance.HoldFire)
+		if (life.IsDead)
+			destroy = true;
+
+		if (isBored && !isAutoAttacking)
 		{
-			anchor = transform.position;
-			if (canSee && canAttack)
-				maxDistanceFromAnchor = sight.Range - attack.Range;
-			if (ScanForEnemies(out var target))
-				StartCoroutine(AttackCoroutine(target,
-					stance == Stance.Aggressive, stance == Stance.Guard));
+			switch (stance)
+			{
+				case Stance.Aggressive:
+					StartCoroutine(AggressiveCoroutine());
+					break;
+				case Stance.Guard:
+					StartCoroutine(GuardCoroutine());
+					break;
+				case Stance.HoldPosition:
+					StartCoroutine(HoldPositionCoroutine());
+					break;
+				case Stance.HoldFire:
+					break;
+			}
 		}
 	}
 
@@ -86,9 +103,10 @@ public class BaseController : MonoBehaviour
 		if (canAttack)
 			foreach (var other in Physics.OverlapSphere(transform.position, attack.Range, attackMask))
 			{
-				if (!TryGetComponent<Nation>(out var n) || !nation.IsHostile(n)) continue;
+				if (!other.TryGetComponent<Nation>(out var n) || !nation.IsHostile(n))
+					continue;
 
-				if (!TryGetComponent<Life>(out var l) || l.IsDead) continue;
+				if (!other.TryGetComponent<Life>(out var l) || l.IsDead) continue;
 
 				if (additionalCondition != null && !additionalCondition(l)) continue;
 
@@ -98,9 +116,9 @@ public class BaseController : MonoBehaviour
 
 		foreach (var other in Physics.OverlapSphere(transform.position, sight.Range, attackMask))
 		{
-			if (!TryGetComponent<Nation>(out var n) || !nation.IsHostile(n)) continue;
+			if (!other.TryGetComponent<Nation>(out var n) || !nation.IsHostile(n)) continue;
 
-			if (!TryGetComponent<Life>(out var l) || l.IsDead) continue;
+			if (!other.TryGetComponent<Life>(out var l) || l.IsDead) continue;
 
 			if (additionalCondition != null && !additionalCondition(l)) continue;
 
@@ -116,17 +134,62 @@ public class BaseController : MonoBehaviour
 	{
 		if (!canSee || !canAttack)
 			yield break;
+		anchor = transform.position;
 		isGuarding = true;
+		isAutoAttacking = true;
 		maxDistanceFromAnchor = sight.Range - attack.Range;
-		while (isGuarding && stance == Stance.Guard)
+		while (isGuarding && isAutoAttacking && isBored)
 		{
-			GoTo(anchor);
 			if (ScanForEnemies(out var target,
 				l => Vector3.Distance(l.transform.position, anchor) < maxDistanceFromAnchor))
 			{
 				yield return StartCoroutine(AttackCoroutine(target, true, true));
 			}
+			else yield return null;
+
+			if (isBored && isAutoAttacking)
+				movement.GoTo(anchor, 0, true);
 		}
+
+		isAutoAttacking = false;
+	}
+
+	private IEnumerator AggressiveCoroutine()
+	{
+		if (!canSee || !canAttack)
+			yield break;
+
+
+		isAutoAttacking = true;
+
+		while (isAutoAttacking && isBored)
+		{
+			if (ScanForEnemies(out var target))
+			{
+				yield return StartCoroutine(AttackCoroutine(target, true, false));
+			}
+			else yield return null;
+		}
+
+		isAutoAttacking = false;
+	}
+
+	private IEnumerator HoldPositionCoroutine()
+	{
+		if (!canSee || !canAttack)
+			yield break;
+
+		isAutoAttacking = true;
+		while (isAutoAttacking && isBored)
+		{
+			if (ScanForEnemies(out var target))
+			{
+				yield return StartCoroutine(AttackCoroutine(target, false, false));
+			}
+			else yield return null;
+		}
+
+		isAutoAttacking = false;
 	}
 
 	/// <summary>
@@ -135,11 +198,12 @@ public class BaseController : MonoBehaviour
 	/// <param name="target">A 'Life' object to attack.</param>
 	/// <param name="chase">Should we chase 'target' if it runs away?</param>
 	/// <param name="useAnchor"></param>
-	private IEnumerator AttackCoroutine(Life target, bool chase, bool useAnchor)
+	private IEnumerator AttackCoroutine(Life target, bool chase, bool useAnchor, Action whenDone = null)
 	{
 		if (!canAttack || target == null || target.IsDead)
 		{
 			isAttacking = false;
+			whenDone?.Invoke();
 			yield break;
 		}
 
@@ -147,6 +211,9 @@ public class BaseController : MonoBehaviour
 
 		while (isAttacking)
 		{
+			if (target.IsDead)
+				break;
+
 			if (!attack.IsInRange(target.transform.position))
 			{
 				if (!canMove)
@@ -163,6 +230,7 @@ public class BaseController : MonoBehaviour
 				if (!attack.IsInRange(target.transform.position))
 				{
 					isAttacking = false;
+					whenDone?.Invoke();
 					yield break;
 				}
 			}
@@ -174,9 +242,12 @@ public class BaseController : MonoBehaviour
 			if (!chase || target == null || target.IsDead)
 			{
 				isAttacking = false;
+				whenDone?.Invoke();
 				yield break;
 			}
 		}
+
+		whenDone?.Invoke();
 	}
 
 	private IEnumerator Chase(Life target)
@@ -222,8 +293,11 @@ public class BaseController : MonoBehaviour
 	public bool GoTo(Vector3 position)
 	{
 		if (!canMove) return false;
+		isBored = false;
+		isAutoAttacking = false;
 		StopAttacking();
-		return movement.GoTo(position, 0, true);
+		StartCoroutine(InvokeNextFrame(() => { movement.GoTo(position, 0, true, () => { isBored = true; }); }));
+		return true;
 	}
 
 	/// <summary>
@@ -234,8 +308,18 @@ public class BaseController : MonoBehaviour
 	public bool GoTo(Transform trans)
 	{
 		if (!canMove) return false;
+		isBored = false;
 		StopAttacking();
-		return movement.GoTo(trans, 0, true);
+
+		StartCoroutine(InvokeNextFrame(() => { movement.GoTo(trans, 0, true, () => { isBored = true; }); }));
+
+		return true;
+	}
+
+	private IEnumerator InvokeNextFrame(Action action)
+	{
+		yield return null;
+		action?.Invoke();
 	}
 
 	/// <summary>
@@ -248,7 +332,13 @@ public class BaseController : MonoBehaviour
 
 		if (!canMove && !attack.IsInRange(target.transform.position)) return false;
 
-		StartCoroutine(AttackCoroutine(target, true, false));
+		isBored = false;
+
+		StartCoroutine(InvokeNextFrame(() =>
+		{
+			StartCoroutine(AttackCoroutine(target, true, false, () => { isBored = true; }));
+		}));
+
 
 		return true;
 	}

@@ -477,7 +477,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 602173629, guid: d4d583b47a646cf46a4e373028b8a4cd, type: 3}
       propertyPath: textureScale
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 51461684056289119, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}
@@ -652,7 +652,7 @@ PrefabInstance:
     - target: {fileID: 6856191126442739717, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}
       propertyPath: textureScale
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7152270063922377588, guid: d4d583b47a646cf46a4e373028b8a4cd,
         type: 3}

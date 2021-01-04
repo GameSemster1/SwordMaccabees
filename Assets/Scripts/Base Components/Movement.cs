@@ -33,6 +33,8 @@ public class Movement : MonoBehaviour
 
 	private bool isRunning;
 
+	private Action onDestinationArrive;
+
 	/// <summary>
 	/// Is this unit currently running?
 	/// </summary>
@@ -50,10 +52,11 @@ public class Movement : MonoBehaviour
 
 	private void Update()
 	{
-		if (IsMoving && agent.isStopped)
+		if (IsMoving && agent.remainingDistance == 0f)
 		{
 			IsMoving = false;
 			onStop?.Invoke();
+			onDestinationArrive?.Invoke();
 			Target = null;
 		}
 
@@ -70,7 +73,7 @@ public class Movement : MonoBehaviour
 	/// <param name="distance">The distance from 'pos' to stop at.</param>
 	/// <param name="run">Should we run there?</param>
 	/// <returns>True if 'pos' is reachable.</returns>
-	public bool GoTo(Vector3 pos, float distance, bool run)
+	public bool GoTo(Vector3 pos, float distance, bool run, Action whenDone = null)
 	{
 		isRunning = run;
 		agent.speed = run ? runningSpeed : walkingSpeed;
@@ -81,6 +84,8 @@ public class Movement : MonoBehaviour
 		{
 			onMove?.Invoke();
 			IsMoving = true;
+			onDestinationArrive = whenDone;
+
 			return true;
 		}
 
@@ -94,7 +99,7 @@ public class Movement : MonoBehaviour
 	/// <param name="distance">The distance from 'trans.position' to stop at.</param>
 	/// <param name="run">Should we run there?</param>
 	/// <returns>True if 'trans.position' is reachable. Note: this only checks in the current frame.</returns>
-	public bool GoTo(Transform trans, float distance, bool run)
+	public bool GoTo(Transform trans, float distance, bool run, Action whenDone = null)
 	{
 		Target = trans;
 		isRunning = run;
@@ -106,6 +111,7 @@ public class Movement : MonoBehaviour
 		{
 			onMove?.Invoke();
 			IsMoving = true;
+			onDestinationArrive = whenDone;
 			return true;
 		}
 
