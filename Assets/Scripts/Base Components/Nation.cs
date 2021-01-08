@@ -14,13 +14,15 @@ public class Nation : MonoBehaviour
 	/// <summary>
 	/// An enum of possible nations.
 	/// </summary>
-	private enum Type
+	public enum Type
 	{
 		Jewish,
 		Greek,
 		NonJewHostile,
 		NonJewNotHostile
 	}
+
+	public Type NationType => type;
 
 	/// <summary>
 	/// The set of hostility relations.
