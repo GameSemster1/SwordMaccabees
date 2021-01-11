@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// A class that is in charge of selecting units.
@@ -44,15 +45,18 @@ public class UnitSelector : MonoBehaviour
 
 	private bool isDragging = false;
 
+	private bool isSelecting = false;
+
 	private void Update()
 	{
-		if (Input.GetMouseButtonDown(mouseButton))
+		if (Input.GetMouseButtonDown(mouseButton) && !IsPointerOverUIObject())
 		{
 			// start selecting
 			startSelectionDrag = Input.mousePosition;
+			isSelecting = true;
 		}
 
-		if (Input.GetMouseButton(mouseButton))
+		if (Input.GetMouseButton(mouseButton) && isSelecting)
 		{
 			Vector2 currentSelectionDrag = Input.mousePosition;
 
@@ -99,8 +103,9 @@ public class UnitSelector : MonoBehaviour
 			}
 		}
 
-		if (Input.GetMouseButtonUp(mouseButton))
+		if (Input.GetMouseButtonUp(mouseButton) && isSelecting)
 		{
+			isSelecting = false;
 			if (isDragging)
 			{
 				// The mouse moved. Select all units the rectangle.
@@ -130,6 +135,17 @@ public class UnitSelector : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private static bool IsPointerOverUIObject()
+	{
+		PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current)
+		{
+			position = new Vector2(Input.mousePosition.x, Input.mousePosition.y)
+		};
+		var results = new List<RaycastResult>();
+		EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+		return results.Count > 0;
 	}
 
 	private void ChangeSelected(ISelectable[] newSelects, bool dragSelect)

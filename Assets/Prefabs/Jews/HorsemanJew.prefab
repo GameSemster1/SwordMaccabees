@@ -62,6 +62,7 @@ MonoBehaviour:
   attackMask:
     serializedVersion: 2
     m_Bits: 768
+  stance: 1
   selectionCircle: {fileID: 9078737689546756821}
 --- !u!114 &-2015691971221362942
 MonoBehaviour:
@@ -179,6 +180,7 @@ MonoBehaviour:
     iron: 15
     wheat: 55
     water: 65
+  buildTime: 10
 --- !u!114 &-6485058273700280975
 MonoBehaviour:
   m_ObjectHideFlags: 0
