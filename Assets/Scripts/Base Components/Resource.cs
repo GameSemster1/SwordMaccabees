@@ -27,6 +27,11 @@ public class Resource : MonoBehaviour
 		return col.bounds.Contains(position);
 	}
 
+	public Vector3 GetPointOnBounds(Vector3 position)
+	{
+		return col.ClosestPointOnBounds(position);
+	}
+
 	/// <summary>
 	/// Called when a worker gathers from this resource.
 	/// Should take care of decreasing the value of this resource.

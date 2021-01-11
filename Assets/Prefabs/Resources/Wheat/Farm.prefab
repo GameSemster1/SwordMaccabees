@@ -97,7 +97,7 @@ MonoBehaviour:
     wood: 0
     rock: 0
     iron: 0
-    wheat: Infinity
+    wheat: 1e+20
     water: 0
 --- !u!65 &4247501389007847159
 BoxCollider:

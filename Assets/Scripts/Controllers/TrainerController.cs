@@ -62,11 +62,16 @@ public class TrainerController : MonoBehaviour, ISelectable
 		yield return new WaitForSeconds(entry.soldier.BuildTime);
 		entry.isTraining = false;
 		var newSolider = Instantiate(entry.soldier, transform.position, Quaternion.identity);
-
-		if (!newSolider.TryGetComponent<Movement>(out var m)) yield break;
-
-		yield return null;
-		m.GoTo(exitFlag.position, 0, true);
+		
+		if (newSolider.TryGetComponent<BaseController>(out var c))
+		{
+			yield return null;
+			c.GoTo(exitFlag.position);
+		}else if (newSolider.TryGetComponent<Movement>(out var m))
+		{
+			yield return null;
+			m.GoTo(exitFlag.position, 0, true);
+		}
 	}
 
 	public Bounds Bounds => col.bounds;

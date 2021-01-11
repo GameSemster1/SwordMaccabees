@@ -21,7 +21,8 @@ public class Work : MonoBehaviour
 
 	public bool IsInRange(Resource resource)
 	{
-		return resource.IsInRange(transform.position);
+		var position = transform.position;
+		return Vector3.Distance(position, resource.GetPointOnBounds(position)) <= range;
 	}
 
 	public void WorkAt(Resource resource)
@@ -29,8 +30,19 @@ public class Work : MonoBehaviour
 		StartCoroutine(WorkCoroutine(resource));
 	}
 
+	public void StopWorking()
+	{
+		IsWorking = false;
+		// StopCoroutine("WorkCoroutine");
+	}
+
 	private IEnumerator WorkCoroutine(Resource resource)
 	{
+		if (!IsInRange(resource))
+		{
+			yield break;
+		}
+
 		IsWorking = true;
 		if (lastWork + rate > Time.time)
 		{
@@ -39,10 +51,23 @@ public class Work : MonoBehaviour
 
 		while (IsWorking)
 		{
-			if (IsInRange(resource))
+			if (!IsInRange(resource))
 			{
-				bank.Received(resource.Gathered(power, burden));
+				yield break;
 			}
+
+			var gathered = resource.Gathered(power, burden);
+
+			if (gathered.IsNothing())
+			{
+				IsWorking = false;
+				yield break;
+			}
+
+			bank.Received(gathered);
+			lastWork = Time.time;
+
+			if (!IsWorking) yield break;
 
 			yield return new WaitForSeconds(rate);
 		}

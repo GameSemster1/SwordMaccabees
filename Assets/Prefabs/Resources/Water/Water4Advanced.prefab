@@ -429,7 +429,7 @@ MonoBehaviour:
     rock: 0
     iron: 0
     wheat: 0
-    water: Infinity
+    water: 1e+20
 --- !u!65 &7659035405910009308
 BoxCollider:
   m_ObjectHideFlags: 0

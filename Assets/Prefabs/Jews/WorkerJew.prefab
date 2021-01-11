@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7573204333096476457}
-  - component: {fileID: 7127169231038009062}
-  - component: {fileID: -6537717605393261082}
+  - component: {fileID: 8433256225266279471}
+  - component: {fileID: 1967500430473418249}
   - component: {fileID: -7706849896648745577}
   - component: {fileID: -4104126287536860056}
   - component: {fileID: -8003452009789833657}
@@ -42,7 +42,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7127169231038009062
+--- !u!114 &8433256225266279471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,20 +51,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 642771092571268603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd3d6b30e87c2b449bf8b77cd35d672, type: 3}
+  m_Script: {fileID: 11500000, guid: 27ad9e7ab936c9948aedffca23f4cf93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sight: {fileID: 3307107797178845453}
-  movement: {fileID: -8003452009789833657}
-  attack: {fileID: -6537717605393261082}
-  nation: {fileID: -8818676700671243299}
-  life: {fileID: -7706849896648745577}
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 768
-  stance: 1
+  work: {fileID: 1967500430473418249}
+  move: {fileID: -8003452009789833657}
   selectionCircle: {fileID: 4414269174731424086}
---- !u!114 &-6537717605393261082
+--- !u!114 &1967500430473418249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,23 +66,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 642771092571268603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3b581ab6b1e8c4fb1a750ead50a761, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d65a5aacf07c143b7a208c63e51f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
-  rate: 1.5
   power: 5
-  intrusion: 1
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 3840
-  obstacleTag: Attack Obstacle
-  onAttack:
-    m_PersistentCalls:
-      m_Calls: []
-  onStop:
-    m_PersistentCalls:
-      m_Calls: []
+  rate: 1.5
+  burden: 10
+  range: 1
 --- !u!114 &-7706849896648745577
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value:
-    wood: Infinity
+    wood: 1e+20
     rock: 0
     iron: 0
     wheat: 0

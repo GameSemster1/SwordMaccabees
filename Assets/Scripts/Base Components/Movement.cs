@@ -72,9 +72,16 @@ public class Movement : MonoBehaviour
 	/// <param name="pos">The position to go to.</param>
 	/// <param name="distance">The distance from 'pos' to stop at.</param>
 	/// <param name="run">Should we run there?</param>
+	/// <param name="whenDone"></param>
 	/// <returns>True if 'pos' is reachable.</returns>
 	public bool GoTo(Vector3 pos, float distance, bool run, Action whenDone = null)
 	{
+		if (NavMesh.SamplePosition(pos, out var myNavHit, 100, -1))
+		{
+			pos = myNavHit.position;
+		}
+		else return false;
+
 		isRunning = run;
 		agent.speed = run ? runningSpeed : walkingSpeed;
 

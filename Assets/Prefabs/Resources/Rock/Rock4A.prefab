@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value:
     wood: 0
-    rock: Infinity
+    rock: 1e+20
     iron: 0
     wheat: 0
     water: 0

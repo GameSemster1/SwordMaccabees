@@ -96,7 +96,7 @@ MonoBehaviour:
   value:
     wood: 0
     rock: 0
-    iron: Infinity
+    iron: 1e+20
     wheat: 0
     water: 0
 --- !u!65 &-6009597772136447603
