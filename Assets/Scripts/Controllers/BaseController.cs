@@ -73,6 +73,9 @@ public class BaseController : MonoBehaviour
 		if (life.IsDead)
 			destroy = true;
 
+		if (canMove && movement.IsMoving)
+			return;
+
 		if (isBored && !isAutoAttacking)
 		{
 			switch (stance)

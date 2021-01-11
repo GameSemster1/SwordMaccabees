@@ -10,9 +10,12 @@ using UnityEngine.WSA;
 public class PriceSetter : MonoBehaviour
 {
 	[SerializeField] private Price price;
+	[SerializeField] private float buildTime;
 
 	/// <summary>
 	/// This unit's price.
 	/// </summary>
 	public Price Price => price;
+
+	public float BuildTime => buildTime;
 }
