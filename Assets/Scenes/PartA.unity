@@ -1113,8 +1113,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198731300}
-  m_LocalRotation: {x: -0.38268346, y: 0, z: 0, w: 0.9238795}
-  m_LocalPosition: {x: 108.6, y: -12.160895, z: -17.5}
+  m_LocalRotation: {x: -0.27300295, y: 0.09160634, z: 0.026124846, w: 0.95728534}
+  m_LocalPosition: {x: 113.330734, y: -3.156352, z: 41.48107}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1888,7 +1888,7 @@ MonoBehaviour:
   - {fileID: 2028650632}
   trainBase: {fileID: 1104453430}
   distanceFromBase: 20
-  numberOfSoldiers: 10
+  numberOfSoldiers: 20
   nextLevel: PartB
 --- !u!114 &1675388795
 MonoBehaviour:
@@ -1990,7 +1990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1683153859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,7 +2011,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: ".\u05E1\u05D9\u05E1\u05D1\u05DC \u05DD\u05EA\u05E2\u05D2\u05D4\n\u05DD\u05D9\u05DC\u05D9\u05D9\u05D7
-    100 \u05D5\u05E0\u05DE\u05D0\u05D5 \u05D5\u05D9\u05DC\u05E2 \u05D5\u05E6\u05D7\u05DC\n\u05DD\u05D9\u05D3\u05D1\u05D5\u05E2\u05D4
+    20 \u05D5\u05E0\u05DE\u05D0\u05D5 \u05D5\u05D9\u05DC\u05E2 \u05D5\u05E6\u05D7\u05DC\n\u05DD\u05D9\u05D3\u05D1\u05D5\u05E2\u05D4
     \u05DD\u05E2 \u05DD\u05D9\u05D1\u05D0\u05E9\u05DE \u05E3\u05D5\u05E1\u05D0\u05DC
     \u05D5\u05DB\u05E8\u05EA\u05E6\u05EA ,\u05DD\u05D9\u05DC\u05D9\u05D9\u05D7 \u05DF\u05DE\u05D0\u05DC
     \u05D9\u05D3\u05DB"
@@ -2041,7 +2041,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.75
+  m_fontSize: 22.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

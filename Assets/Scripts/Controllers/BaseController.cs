@@ -67,12 +67,6 @@ public class BaseController : MonoBehaviour
 	// Update is called once per frame
 	protected virtual void Update()
 	{
-		if (destroy)
-			Destroy(gameObject);
-
-		if (life.IsDead)
-			destroy = true;
-
 		if (canMove && movement.IsMoving)
 			return;
 
@@ -141,7 +135,7 @@ public class BaseController : MonoBehaviour
 		isGuarding = true;
 		isAutoAttacking = true;
 		maxDistanceFromAnchor = sight.Range - attack.Range;
-		while (isGuarding && isAutoAttacking && isBored && ! life.IsDead)
+		while (isGuarding && isAutoAttacking && isBored && !life.IsDead)
 		{
 			if (ScanForEnemies(out var target,
 				l => Vector3.Distance(l.transform.position, anchor) < maxDistanceFromAnchor))
@@ -151,7 +145,7 @@ public class BaseController : MonoBehaviour
 			else yield return null;
 
 			if (isBored && isAutoAttacking)
-				movement.GoTo(anchor, 0, true);
+				movement.GoTo(anchor, 1, true);
 		}
 
 		isAutoAttacking = false;
@@ -165,7 +159,7 @@ public class BaseController : MonoBehaviour
 
 		isAutoAttacking = true;
 
-		while (isAutoAttacking && isBored && ! life.IsDead)
+		while (isAutoAttacking && isBored && !life.IsDead)
 		{
 			if (ScanForEnemies(out var target))
 			{
@@ -183,7 +177,7 @@ public class BaseController : MonoBehaviour
 			yield break;
 
 		isAutoAttacking = true;
-		while (isAutoAttacking && isBored && ! life.IsDead)
+		while (isAutoAttacking && isBored && !life.IsDead)
 		{
 			if (ScanForEnemies(out var target))
 			{
@@ -212,7 +206,7 @@ public class BaseController : MonoBehaviour
 
 		isAttacking = true;
 
-		while (isAttacking && ! life.IsDead)
+		while (isAttacking && !life.IsDead)
 		{
 			if (target.IsDead)
 				break;
@@ -301,7 +295,7 @@ public class BaseController : MonoBehaviour
 		StartCoroutine(InvokeNextFrame(() =>
 		{
 			StopAttacking();
-			StartCoroutine(InvokeNextFrame(() => { movement.GoTo(position, 0, true, () => { isBored = true; }); }));
+			StartCoroutine(InvokeNextFrame(() => { movement.GoTo(position, 1, true, () => { isBored = true; }); }));
 		}));
 		return true;
 	}
@@ -320,7 +314,7 @@ public class BaseController : MonoBehaviour
 		StartCoroutine(InvokeNextFrame(() =>
 		{
 			StopAttacking();
-			StartCoroutine(InvokeNextFrame(() => { movement.GoTo(trans, 0, true, () => { isBored = true; }); }));
+			StartCoroutine(InvokeNextFrame(() => { movement.GoTo(trans, 1, true, () => { isBored = true; }); }));
 		}));
 
 		return true;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4425858351858853232}
   - component: {fileID: 4425858351862945040}
   - component: {fileID: -2471431725213119978}
+  - component: {fileID: 8421372335282186835}
   m_Layer: 14
   m_Name: Rock4A
   m_TagString: Untagged
@@ -113,3 +114,19 @@ MonoBehaviour:
     iron: 0
     wheat: 0
     water: 0
+--- !u!208 &8421372335282186835
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4425858351856663472}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.92, y: 1.58, z: 1.845}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.72, y: 0.59900004, z: 0.634}
+  m_TimeToStationary: 0.5

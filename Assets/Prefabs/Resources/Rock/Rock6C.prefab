@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7075991350998171913}
   - component: {fileID: 7075991350993991625}
   - component: {fileID: 3773474688530144410}
+  - component: {fileID: 6588421156734485727}
   m_Layer: 14
   m_Name: Rock6C
   m_TagString: Untagged
@@ -112,3 +113,19 @@ MonoBehaviour:
     iron: 0
     wheat: 0
     water: 0
+--- !u!208 &6588421156734485727
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7075991350995918793}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.315, y: 0.395, z: 1.005}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.010000001, y: 0.021000002, z: -0.305}
+  m_TimeToStationary: 0.5

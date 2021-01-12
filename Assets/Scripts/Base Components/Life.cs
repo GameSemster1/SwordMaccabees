@@ -18,6 +18,14 @@ public class Life : MonoBehaviour
 	[SerializeField] [Tooltip("Called whenever this unit is hit.")]
 	private UnityEvent onHit;
 
+	private bool destroy;
+
+	private void Update()
+	{
+		if (destroy)
+			Destroy(gameObject);
+	}
+
 	/// <summary>
 	/// Hit points left.
 	/// </summary>
@@ -36,7 +44,7 @@ public class Life : MonoBehaviour
 		if (hp <= 0)
 		{
 			hp = 0;
-			// TODO dead
+			destroy = true;
 		}
 
 		return hp;

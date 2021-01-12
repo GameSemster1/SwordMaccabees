@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1540194319300284877}
   - component: {fileID: 4887938915815474844}
   - component: {fileID: 4247501389007847159}
+  - component: {fileID: 497415752053241951}
   m_Layer: 14
   m_Name: Farm
   m_TagString: Untagged
@@ -110,5 +111,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.9999995, y: 0.01406334, z: 4}
+  m_Size: {x: 4, y: 1.34, z: 4}
   m_Center: {x: 0, y: 0.00703152, z: 0}
+--- !u!208 &497415752053241951
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540194319298023181}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.75, y: 0.007, z: 1.75}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.007, z: 0}
+  m_TimeToStationary: 0.5

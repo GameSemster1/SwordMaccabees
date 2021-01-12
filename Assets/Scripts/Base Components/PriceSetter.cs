@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
 
 /// <summary>
 /// A class that configures the price of a unit.

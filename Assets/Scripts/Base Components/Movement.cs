@@ -52,7 +52,7 @@ public class Movement : MonoBehaviour
 
 	private void Update()
 	{
-		if (IsMoving && agent.remainingDistance == 0f)
+		if (IsMoving && agent.remainingDistance <= agent.stoppingDistance)
 		{
 			IsMoving = false;
 			onStop?.Invoke();

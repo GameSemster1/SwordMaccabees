@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9105281980566974447}
   - component: {fileID: 1497771425859841314}
   - component: {fileID: 2502289865692789981}
+  - component: {fileID: 1865998798768286430}
   m_Layer: 14
   m_Name: Poplar_Tree
   m_TagString: Untagged
@@ -112,3 +113,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.6940608, y: 5.8196263, z: 2.9629083}
   m_Center: {x: 0.037836492, y: 2.9017284, z: -0.0047776103}
+--- !u!208 &1865998798768286430
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105281980564713843}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.77, y: 2.535, z: 1.025}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.038000003, y: 2.9020002, z: -0.0050000004}
+  m_TimeToStationary: 0.5

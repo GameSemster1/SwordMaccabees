@@ -75,7 +75,7 @@ public class TrainerController : MonoBehaviour, ISelectable
 		else if (newSolider.TryGetComponent<Movement>(out var m))
 		{
 			yield return null;
-			m.GoTo(exitFlag.position, 0, true);
+			m.GoTo(exitFlag.position, 1, true);
 		}
 
 		onTrain.Invoke();

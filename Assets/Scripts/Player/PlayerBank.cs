@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBank : MonoBehaviour
 {
 	private static Dictionary<Nation.Type, PlayerBank> banks = new Dictionary<Nation.Type, PlayerBank>();
+
+	private static string currentScene;
 
 	public static PlayerBank Get(Nation nation)
 	{
@@ -26,6 +29,12 @@ public class PlayerBank : MonoBehaviour
 
 	private void Awake()
 	{
+		if (currentScene != SceneManager.GetActiveScene().name)
+		{
+			banks.Clear();
+			currentScene = SceneManager.GetActiveScene().name;
+		}
+
 		banks.Add(nation.NationType, this);
 		CurrentResources = startingResources;
 
@@ -50,8 +59,9 @@ public class PlayerBank : MonoBehaviour
 		var iron = CurrentResources.iron.ToString(CultureInfo.CurrentCulture).PadLeft(totalResouceLength);
 		var wheat = CurrentResources.wheat.ToString(CultureInfo.CurrentCulture).PadLeft(totalResouceLength);
 		var water = CurrentResources.water.ToString(CultureInfo.CurrentCulture).PadLeft(totalResouceLength);
-		
-		field.text = $"{woodPrefix}{wood}. {rockPrefix}{rock}. {ironPrefix}{iron}. {wheatPrefix}{wheat}. {waterPrefix}{water}.";
+
+		field.text =
+			$"{woodPrefix}{wood}. {rockPrefix}{rock}. {ironPrefix}{iron}. {wheatPrefix}{wheat}. {waterPrefix}{water}.";
 	}
 
 	public bool Buy(Price price)

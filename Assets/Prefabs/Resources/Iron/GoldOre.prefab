@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7299054906389109850}
   - component: {fileID: -4509813271590162188}
   - component: {fileID: -6009597772136447603}
+  - component: {fileID: 336833747037692263}
   m_Layer: 14
   m_Name: GoldOre
   m_TagString: Untagged
@@ -112,3 +113,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7440466, y: 0.74156475, z: 1.6827266}
   m_Center: {x: 0.06281996, y: 0.3358459, z: 0.002718091}
+--- !u!208 &336833747037692263
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299054906387169946}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.65, y: 0.22, z: 0.765}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.063, y: 0.33600003, z: 0.003}
+  m_TimeToStationary: 0.5
