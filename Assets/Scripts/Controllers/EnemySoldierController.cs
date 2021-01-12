@@ -23,7 +23,7 @@ public class EnemySoldierController : SoldierController
 
 	private void OnGUI()
 	{
-		GUILayout.Label($"HP: {life.HP}");
-		GUILayout.Label($"Enemies Left: {enemies.Count}");
+		// GUILayout.Label($"HP: {life.HP}");
+		// GUILayout.Label($"Enemies Left: {enemies.Count}");
 	}
 }

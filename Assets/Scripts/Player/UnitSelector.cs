@@ -36,7 +36,7 @@ public class UnitSelector : MonoBehaviour
 	/// All the units that are currently selected.
 	/// </summary>
 	public IEnumerable<ISelectable> SelectedUnits =>
-		selectedUnits.Where(selectable => selectable != null && selectable.IsSelected);
+		selectedUnits.Where(selectable => (Component) selectable != null && selectable.IsSelected);
 
 	/// <summary>
 	/// The unit that is currently highlighted. Null if there is none.
