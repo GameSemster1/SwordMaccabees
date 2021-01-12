@@ -2,9 +2,10 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuildButton : MonoBehaviour
+public class BuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[SerializeField] private Button button;
 	[SerializeField] private TextMeshProUGUI text;
@@ -12,11 +13,29 @@ public class BuildButton : MonoBehaviour
 	[SerializeField] private Image progressBar;
 
 	private Func<float> getAmount;
+	private Tooltip tooltip;
+
+	private Func<string> tooltipText;
+
+	private bool mouseOver;
 
 	private void Update()
 	{
 		if (getAmount != null)
 			progressBar.fillAmount = getAmount.Invoke();
+
+		if (mouseOver)
+			tooltip.UpdatePosition(Input.mousePosition);
+	}
+
+	public void SetTooltipObject(Tooltip tooltip)
+	{
+		this.tooltip = tooltip;
+	}
+
+	public void SetTooltip(Func<string> tooltipText)
+	{
+		this.tooltipText = tooltipText;
 	}
 
 	public void SetText(string t)
@@ -48,5 +67,19 @@ public class BuildButton : MonoBehaviour
 	public void Enable()
 	{
 		gameObject.SetActive(true);
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		mouseOver = true;
+		tooltip.ShowTooltip(tooltipText?.Invoke(), Input.mousePosition);
+		// Debug.Log("Mouse enter");
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		mouseOver = false;
+		tooltip.HideTooltip();
+		// Debug.Log("Mouse exit");
 	}
 }

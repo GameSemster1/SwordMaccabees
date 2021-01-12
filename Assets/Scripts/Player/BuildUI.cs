@@ -8,6 +8,7 @@ public class BuildUI : MonoBehaviour
 	public static BuildUI instance;
 
 	[SerializeField] private BuildButton[] buttons;
+	[SerializeField] private Tooltip tooltip;
 
 	private Component myCaller;
 
@@ -15,6 +16,11 @@ public class BuildUI : MonoBehaviour
 	{
 		instance = this;
 		Disable(null);
+
+		foreach (var button in buttons)
+		{
+			button.SetTooltipObject(tooltip);
+		}
 	}
 
 	public void Enable(BuildEntry[] entries, Component caller)
@@ -31,6 +37,7 @@ public class BuildUI : MonoBehaviour
 				buttons[i].SetText(entry.text);
 				buttons[i].SetAction(entry.action);
 				buttons[i].SetProgress(() => entry.FillAmount);
+				buttons[i].SetTooltip(() => entry.Tooltip);
 				buttons[i].Enable();
 			}
 			else

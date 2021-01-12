@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TrainerController : MonoBehaviour, ISelectable
 {
@@ -12,6 +13,8 @@ public class TrainerController : MonoBehaviour, ISelectable
 
 	[SerializeField] private GameObject selectionCircle;
 
+	[SerializeField] private UnityEvent onTrain;
+
 	[Serializable]
 	public class Entry : BuildEntry
 	{
@@ -21,6 +24,10 @@ public class TrainerController : MonoBehaviour, ISelectable
 		[HideInInspector] public bool isTraining = false;
 
 		public override float FillAmount => isTraining ? (Time.time - startBuildTime) / soldier.BuildTime : 1;
+
+		public override string Tooltip =>
+			$"Wood: {soldier.Price.wood}\nRock: {soldier.Price.rock}\nIron: {soldier.Price.iron}\n" +
+			$"Wheat: {soldier.Price.wheat}\nWater: {soldier.Price.water}";
 	}
 
 	private PlayerBank bank;
@@ -70,6 +77,8 @@ public class TrainerController : MonoBehaviour, ISelectable
 			yield return null;
 			m.GoTo(exitFlag.position, 0, true);
 		}
+
+		onTrain.Invoke();
 	}
 
 	public Bounds Bounds => col.bounds;
@@ -106,5 +115,10 @@ public class TrainerController : MonoBehaviour, ISelectable
 	public void ActionAt(Vector3 position, GameObject obj)
 	{
 		exitFlag.position = position;
+	}
+
+	public void DoOnTrain(Action action)
+	{
+		onTrain.AddListener(new UnityAction(action));
 	}
 }
