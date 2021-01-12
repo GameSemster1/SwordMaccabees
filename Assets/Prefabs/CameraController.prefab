@@ -53,7 +53,7 @@ MonoBehaviour:
   scrollSpeed: 10
   speedOverHeight: 1
   min: {x: 0, y: 15, z: 0}
-  max: {x: 400, y: 200, z: 400}
+  max: {x: 400, y: 150, z: 400}
   disableWhenMouseIsOutsideWindow: 1
 --- !u!114 &927627843
 MonoBehaviour:

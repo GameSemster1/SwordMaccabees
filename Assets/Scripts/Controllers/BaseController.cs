@@ -141,7 +141,7 @@ public class BaseController : MonoBehaviour
 		isGuarding = true;
 		isAutoAttacking = true;
 		maxDistanceFromAnchor = sight.Range - attack.Range;
-		while (isGuarding && isAutoAttacking && isBored)
+		while (isGuarding && isAutoAttacking && isBored && ! life.IsDead)
 		{
 			if (ScanForEnemies(out var target,
 				l => Vector3.Distance(l.transform.position, anchor) < maxDistanceFromAnchor))
@@ -165,7 +165,7 @@ public class BaseController : MonoBehaviour
 
 		isAutoAttacking = true;
 
-		while (isAutoAttacking && isBored)
+		while (isAutoAttacking && isBored && ! life.IsDead)
 		{
 			if (ScanForEnemies(out var target))
 			{
@@ -183,7 +183,7 @@ public class BaseController : MonoBehaviour
 			yield break;
 
 		isAutoAttacking = true;
-		while (isAutoAttacking && isBored)
+		while (isAutoAttacking && isBored && ! life.IsDead)
 		{
 			if (ScanForEnemies(out var target))
 			{
@@ -212,7 +212,7 @@ public class BaseController : MonoBehaviour
 
 		isAttacking = true;
 
-		while (isAttacking)
+		while (isAttacking && ! life.IsDead)
 		{
 			if (target.IsDead)
 				break;
