@@ -34,7 +34,10 @@ public class TrainerController : MonoBehaviour, ISelectable
 
 		foreach (var t in soldiers)
 		{
-			t.action = () => { Train(t); };
+			t.action = () =>
+			{
+				Train(t);
+			};
 		}
 	}
 
@@ -59,13 +62,12 @@ public class TrainerController : MonoBehaviour, ISelectable
 		yield return new WaitForSeconds(entry.soldier.BuildTime);
 		entry.isTraining = false;
 		var newSolider = Instantiate(entry.soldier, transform.position, Quaternion.identity);
-
+		
 		if (newSolider.TryGetComponent<BaseController>(out var c))
 		{
 			yield return null;
 			c.GoTo(exitFlag.position);
-		}
-		else if (newSolider.TryGetComponent<Movement>(out var m))
+		}else if (newSolider.TryGetComponent<Movement>(out var m))
 		{
 			yield return null;
 			m.GoTo(exitFlag.position, 0, true);
@@ -82,10 +84,7 @@ public class TrainerController : MonoBehaviour, ISelectable
 	public void OnSelect(bool dragSelect)
 	{
 		if (dragSelect)
-		{
-			OnDeselect();
 			return;
-		}
 
 		IsSelected = true;
 		selectionCircle.SetActive(true);
